@@ -31,13 +31,22 @@ const setStatus = (text) => {
 
 const buildFilter = () => {
   const effectsMap = {
-    none: 'none',
     grayscale: 'grayscale(1)',
     sepia: 'sepia(1)',
     invert: 'invert(1)',
   };
 
-  return `brightness(${state.brightness}%) contrast(${state.contrast}%) saturate(${state.saturate}%) ${effectsMap[state.effect]}`;
+  const filters = [
+    `brightness(${state.brightness}%)`,
+    `contrast(${state.contrast}%)`,
+    `saturate(${state.saturate}%)`,
+  ];
+
+  if (state.effect !== 'none') {
+    filters.push(effectsMap[state.effect]);
+  }
+
+  return filters.join(' ');
 };
 
 const drawImage = () => {
