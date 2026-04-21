@@ -1,0 +1,130 @@
+:root {
+  color-scheme: dark;
+  --bg: #0f1117;
+  --card: #181c27;
+  --line: #2f3749;
+  --text: #ebeffa;
+  --muted: #9eabca;
+  --accent: #5c8dff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  color: var(--text);
+  background: radial-gradient(circle at 20% 0%, #182036, #0f1117 40%);
+  min-height: 100dvh;
+}
+
+.app {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.25rem;
+  display: grid;
+  gap: 1rem;
+}
+
+header {
+  background: color-mix(in oklab, var(--card), black 10%);
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  padding: 1rem 1.25rem;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+header p {
+  margin: 0.35rem 0 0;
+  color: var(--muted);
+}
+
+.toolbar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 0.75rem;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  padding: 1rem;
+  align-items: end;
+}
+
+.group,
+.file-input {
+  display: grid;
+  gap: 0.35rem;
+}
+
+label,
+.file-input span {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+input[type="file"],
+button {
+  border-radius: 0.65rem;
+  border: 1px solid var(--line);
+  color: var(--text);
+  background: #131725;
+  min-height: 2.4rem;
+}
+
+input[type="range"] {
+  width: 100%;
+}
+
+button {
+  cursor: pointer;
+  padding: 0.5rem 0.8rem;
+  transition: 140ms ease;
+}
+
+button:hover {
+  border-color: color-mix(in oklab, var(--accent), white 20%);
+}
+
+button.active,
+button.primary {
+  background: color-mix(in oklab, var(--accent), black 15%);
+  border-color: color-mix(in oklab, var(--accent), white 18%);
+}
+
+button.secondary {
+  background: #202637;
+}
+
+.effects,
+.actions {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.canvas-wrap {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  padding: 1rem;
+}
+
+canvas {
+  width: 100%;
+  max-height: min(70vh, 640px);
+  object-fit: contain;
+  border-radius: 0.8rem;
+  border: 1px solid var(--line);
+  background: repeating-conic-gradient(from 45deg, #1c2231 0% 25%, #151a27 0% 50%)
+    50% / 20px 20px;
+}
+
+#status {
+  margin: 0.75rem 0 0;
+  color: var(--muted);
+}
