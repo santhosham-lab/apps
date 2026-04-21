@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SnapTune Photo Editor</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header>
+        <h1>SnapTune Photo Editor</h1>
+        <p>Upload a photo, tweak settings, and export instantly.</p>
+      </header>
+
+      <section class="toolbar" aria-label="Editor controls">
+        <label class="file-input">
+          <span>Open Photo</span>
+          <input id="imageInput" type="file" accept="image/*" />
+        </label>
+
+        <div class="group">
+          <label for="brightness">Brightness</label>
+          <input id="brightness" type="range" min="0" max="200" value="100" />
+        </div>
+
+        <div class="group">
+          <label for="contrast">Contrast</label>
+          <input id="contrast" type="range" min="0" max="200" value="100" />
+        </div>
+
+        <div class="group">
+          <label for="saturate">Saturation</label>
+          <input id="saturate" type="range" min="0" max="300" value="100" />
+        </div>
+
+        <div class="effects" role="group" aria-label="Effects">
+          <button data-effect="none" class="active" type="button">Normal</button>
+          <button data-effect="grayscale" type="button">Grayscale</button>
+          <button data-effect="sepia" type="button">Sepia</button>
+          <button data-effect="invert" type="button">Invert</button>
+        </div>
+
+        <div class="actions" role="group" aria-label="Image actions">
+          <button id="rotateLeft" type="button">⟲ Rotate Left</button>
+          <button id="rotateRight" type="button">⟳ Rotate Right</button>
+          <button id="flipHorizontal" type="button">⇋ Flip H</button>
+          <button id="flipVertical" type="button">⇅ Flip V</button>
+        </div>
+
+        <button id="reset" type="button" class="secondary">Reset</button>
+        <button id="download" type="button" class="primary">Download PNG</button>
+      </section>
+
+      <section class="canvas-wrap" aria-live="polite">
+        <canvas id="editorCanvas" width="1080" height="720"></canvas>
+        <p id="status">Choose an image to begin editing.</p>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
