@@ -1,0 +1,11 @@
+{
+  "name": "My Fitness — Personal Tracker",
+  "short_name": "My Fitness",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0d1015",
+  "theme_color": "#101319",
+  "description": "Private personal fitness and nutrition tracker",
+  "icons": []
+}
