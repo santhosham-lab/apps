@@ -1,6 +1,6 @@
 {
-  "name": "My Fitness — Personal Tracker",
-  "short_name": "My Fitness",
+  "name": "Limitless Fitracker",
+  "short_name": "Fitracker",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
