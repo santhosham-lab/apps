@@ -1,6 +1,6 @@
-# My Fitness — Personal Tracker
+# Limitless Fitracker
 
-A mobile-first, dark-mode personal fitness tracker. No paid builder, API, account, or server database required.
+A mobile-first, dark-mode personal fitness tracker named **Limitless Fitracker**. No paid builder, API, account, or server database required.
 
 ## Features
 - Food diary with calories, protein, carbohydrates, fat and fibre calculated from user-entered per-100g/ml nutrition values
