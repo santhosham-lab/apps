@@ -25,7 +25,7 @@
 <section id="food" class="page hidden">
 <div class="card"><h2>Log food</h2><form id="foodForm"><div class="formgrid">
 <div><label>Meal</label><select id="meal"><option>Breakfast</option><option>Lunch</option><option>Dinner</option><option>Snack</option></select></div>
-<div class="full"><label>Food name</label><div class="inline"><input id="foodName" required placeholder="e.g. cooked white rice, boiled egg, Kellogg's Chocos"><button type="button" id="findFood" class="primary">Find nutrition</button></div><div id="foodMatches" class="section"></div><p class="hint">Search the built-in food list or packaged-food database. Choose the closest matching food, then enter the quantity.</p></div>
+<div class="full"><label>Food name</label><div class="inline"><input id="foodName" required placeholder="e.g. cooked white rice, boiled egg, Kellogg's Chocos"><button type="button" id="findFood" class="primary" hidden aria-hidden="true" tabindex="-1">Find nutrition</button></div><div id="foodMatches" class="section"></div><p class="hint">Search the built-in food list or packaged-food database. Choose the closest matching food, then enter the quantity.</p></div>
 <div><label>Quantity (g/ml)</label><input id="foodQty" type="number" min="0.1" step="0.1" required placeholder="e.g. 150"></div>
 <details class="full"><summary class="small muted">Edit nutrition manually (only if lookup is unavailable)</summary><div class="formgrid section">
 <div><label>Calories per 100g/ml</label><input id="foodCal" type="number" min="0" step="0.1" required></div>
