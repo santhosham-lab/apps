@@ -29,3 +29,24 @@
 @media(max-width:390px){.course-topic-browser{gap:6px}.selector-panel{padding:9px 6px}.selector-list{height:250px}.selector-option{padding:7px 4px}}
 
 .selector-group-label{padding:10px 7px 5px;color:#8995a7;font-size:8px;font-weight:850;letter-spacing:.8px;text-transform:uppercase;border-bottom:1px solid #edf0f4;margin:2px 0 5px}
+
+/* Ask MECHCALC BYOK AI solver */
+.ai-setup-card,.ai-answer-panel{background:var(--panel,#fff);border:1px solid var(--line);border-radius:10px;padding:17px;margin-bottom:16px}
+.ai-setup-heading,.ai-answer-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.ai-setup-heading h3,.ai-answer-head h3{font-size:15px;margin:4px 0 10px}
+.ai-setup-card>p,.ai-privacy-note p{font-size:10px;line-height:1.65;color:var(--muted,#78859a)}
+.ai-provider-mark{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;background:#edf3ff;color:#3d70bd;font-weight:850}
+.ai-setup-actions{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px}
+.ai-key-note{margin:9px 0 0!important;font-size:9px!important}
+.ai-upload-limits{display:block;margin-top:9px;color:#8b97a8;font-size:9px}
+.question-status.error{border-color:#e5b7b7;background:#fff4f3;color:#a23f3f}
+.ai-answer-panel{margin-top:17px}
+.ai-answer{white-space:pre-wrap;overflow-wrap:anywhere;font:12px/1.75 inherit;color:var(--text,#263449);margin:12px 0;max-height:none}
+.ai-disclaimer{font-size:9px;line-height:1.6;color:#8b6b36;border-top:1px solid var(--line);padding-top:10px}
+.ai-steps{padding-left:19px;color:var(--muted,#78859a);font-size:10px;line-height:1.8}
+.ai-steps li{padding:3px 0 7px}
+.ai-privacy-note{padding:12px;margin:14px 0;background:var(--soft,#f4f6fa);border-radius:8px}
+.ai-privacy-note strong{font-size:10px}
+.ai-privacy-note p{margin:5px 0 0}
+.ai-setup-card input{width:100%;margin-top:6px}
+@media(max-width:760px){.ai-setup-card,.ai-answer-panel{padding:14px}.ai-setup-actions{align-items:flex-start}.ai-answer-head{align-items:flex-start}}

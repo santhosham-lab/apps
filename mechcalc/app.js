@@ -232,38 +232,7 @@
   });
   populateUnits();
 
-  var selectedFiles = [];
-  function renderFiles() { $("fileList").innerHTML = selectedFiles.map(function (file) { return '<span class="file-chip">' + escapeHtml(file.name) + ' · ' + Math.max(1, Math.round(file.size / 1024)) + ' KB</span>'; }).join(""); }
-  function addFiles(files) {
-    Array.prototype.forEach.call(files, function (file) {
-      if (!(file.type.indexOf("image/") === 0 || file.type === "application/pdf" || /\.pdf$/i.test(file.name))) return;
-      if (file.size > 15 * 1024 * 1024) return;
-      if (selectedFiles.length < 5) selectedFiles.push(file);
-    });
-    renderFiles();
-  }
-  $("chooseQuestionFile").addEventListener("click", function () { $("questionFile").click(); });
-  $("questionFile").addEventListener("change", function () { addFiles(this.files); });
-  $("uploadZone").addEventListener("dragover", function (e) { e.preventDefault(); this.classList.add("dragover"); });
-  $("uploadZone").addEventListener("dragleave", function () { this.classList.remove("dragover"); });
-  $("uploadZone").addEventListener("drop", function (e) { e.preventDefault(); this.classList.remove("dragover"); addFiles(e.dataTransfer.files); });
-  $("analyzeQuestion").addEventListener("click", function () {
-    var text = $("questionText").value.trim();
-    if (!text && !selectedFiles.length) { $("questionStatus").textContent = "Paste a question or attach an image/PDF first."; $("questionStatus").hidden = false; return; }
-    var words = text.toLowerCase(), topic = "Not identified from text alone";
-    if (/reciprocating pump|centrifugal pump|turbine|venturimeter|bernoulli|fluid|pipe flow/.test(words)) topic = "Fluid Mechanics / Hydraulic Machinery";
-    else if (/stress|strain|bending|torsion|shear force|deflection/.test(words)) topic = "Strength of Materials";
-    else if (/thermodynamic|entropy|enthalpy|otto cycle|diesel cycle|rankine/.test(words)) topic = "Thermodynamics";
-    else if (/heat transfer|conduction|convection|radiation/.test(words)) topic = "Heat Transfer";
-    else if (/gear|flywheel|governor|vibration|mechanism/.test(words)) topic = "Theory of Machines";
-    var summary = "Question captured in this browser session. ";
-    if (text) summary += "Text length: " + text.length + " characters. ";
-    if (selectedFiles.length) summary += "Attachments: " + selectedFiles.length + " file(s). ";
-    summary += "Possible subject from keyword scan: " + topic + ". ";
-    summary += "Automated AI interpretation, diagram reading and PDF text extraction are not enabled in this release. No numerical solution has been generated. You can use the identified topic to choose an available calculator; do not treat this keyword scan as a verified classification.";
-    $("questionStatus").textContent = summary; $("questionStatus").hidden = false;
-  });
-  $("clearQuestion").addEventListener("click", function () { $("questionText").value = ""; selectedFiles = []; $("questionFile").value = ""; renderFiles(); $("questionStatus").hidden = true; });
+  // Ask MECHCALC AI handling is isolated in ai-solver.js.
 
   // Small internal regression suite for the calculation engine.
   var tests = window.MechCalcEngineering.runSelfTests();
