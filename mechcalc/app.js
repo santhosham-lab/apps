@@ -371,7 +371,7 @@
         if(topic.available){
           $("moduleNotice").hidden = true;
           selectEngineeringCalc(topic.id);
-          $("pumpWorkspace").scrollIntoView({behavior:"smooth",block:"start"});
+          (topic.id==="centrifugal-pump"?$("centrifugalWorkspace"):$("pumpWorkspace")).scrollIntoView({behavior:"smooth",block:"start"});
         } else {
           $("pumpWorkspace").hidden = true; $("centrifugalWorkspace").hidden = true;
           $("moduleNotice").innerHTML = "<strong>"+escapeHtml(topic.name)+"</strong><p>This calculator is listed in the course directory but has not been implemented yet. It will appear here with its own input fields, equations and worked solution when its calculation module is added.</p>";
