@@ -71,6 +71,44 @@
     };
   }
 
+  function solveCentrifugalPump(input) {
+    var Q = positive(input.flowRate, "Flow rate", false);
+    var H = positive(input.head, "Manometric head", false);
+    var N = positive(input.speed, "Pump speed", false);
+    var D = positive(input.impellerDiameter, "Impeller diameter", false);
+    var Pin = positive(input.inputPower, "Shaft input power", false);
+    var rho = positive(input.density, "Fluid density", false);
+    var g = positive(input.gravity, "Gravitational acceleration", false);
+    if (input.flowUnit === "ls") Q /= 1000;
+    else if (input.flowUnit === "m3h") Q /= 3600;
+    if (input.headUnit === "ft") H *= 0.3048;
+    if (input.diameterUnit === "mm") D /= 1000;
+    if (input.powerUnit === "w") Pin /= 1000;
+    Pin *= 1000;
+    var waterPower = rho * g * Q * H;
+    var efficiency = waterPower / Pin * 100;
+    var tipSpeed = Math.PI * D * N / 60;
+    var specificSpeed = N * Math.sqrt(Q) / Math.pow(H, 0.75);
+    var headCoefficient = g * H / (tipSpeed * tipSpeed);
+    var flowCoefficient = Q / ((N / 60) * Math.pow(D, 3));
+    var warnings = [];
+    if (efficiency > 100) warnings.push("Overall efficiency exceeds 100%. Check the flow rate, head, shaft power and units.");
+    if (efficiency < 0) warnings.push("A negative efficiency was calculated. Review the input values and sign conventions.");
+    if (specificSpeed < 5 || specificSpeed > 300) warnings.push("The calculated metric specific speed is outside a common preliminary range. Confirm units and the selected operating point; this is not a pump-selection verdict.");
+    return {
+      flowRate: Q, headM: H, speed: N, diameterM: D, inputPower: Pin,
+      waterPower: waterPower, efficiency: efficiency, tipSpeed: tipSpeed,
+      specificSpeed: specificSpeed, headCoefficient: headCoefficient,
+      flowCoefficient: flowCoefficient, warnings: warnings,
+      assumptions: [
+        "Steady operating point with the supplied flow rate and manometric head.",
+        "Water power is calculated as ρgQH; shaft input power is the pump input boundary.",
+        "Metric specific speed uses N in rpm, Q in m³/s and H in metres. Values depend on the convention used.",
+        "Velocity-triangle losses and pump characteristic curves are not inferred from these inputs."
+      ]
+    };
+  }
+
   function runSelfTests() {
     var tests = [];
     function check(name, actual, expected, tolerance) {
@@ -100,7 +138,7 @@
   }
 
   global.MechCalcEngineering = {
-    solveReciprocatingPump: solveReciprocatingPump,
+    solveReciprocatingPump: solveReciprocatingPump,\n    solveCentrifugalPump: solveCentrifugalPump,
     runSelfTests: runSelfTests,
     formatNumber: fmt
   };

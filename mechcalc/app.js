@@ -264,6 +264,67 @@
   });
   $("clearQuestion").addEventListener("click", function () { $("questionText").value = ""; selectedFiles = []; $("questionFile").value = ""; renderFiles(); $("questionStatus").hidden = true; });
 
+  // V2: calculator module switching.
+  var calcCards = Array.prototype.slice.call(document.querySelectorAll("[data-calc]"));
+  function selectEngineeringCalc(name) {
+    calcCards.forEach(function (card) { card.classList.toggle("selected", card.dataset.calc === name); });
+    $("pumpWorkspace").hidden = name !== "reciprocating-pump";
+    $("centrifugalWorkspace").hidden = name !== "centrifugal-pump";
+  }
+  calcCards.forEach(function (card) {
+    card.addEventListener("click", function () { selectEngineeringCalc(card.dataset.calc); });
+  });
+  selectEngineeringCalc("reciprocating-pump");
+
+  function centrifugalInput() {
+    return {
+      flowRate: $("centQ").value, flowUnit: $("centQUnit").value,
+      head: $("centH").value, headUnit: $("centHUnit").value,
+      speed: $("centN").value, impellerDiameter: $("centD").value,
+      diameterUnit: $("centDUnit").value, inputPower: $("centP").value,
+      powerUnit: $("centPUnit").value, density: $("centRho").value,
+      gravity: $("centG").value
+    };
+  }
+  $("solveCentrifugal").addEventListener("click", function () {
+    $("centrifugalError").hidden = true;
+    try {
+      var r = window.MechCalcEngineering.solveCentrifugalPump(centrifugalInput());
+      var f = window.MechCalcEngineering.formatNumber;
+      var html = '<div class="results-title"><h3>Calculated performance</h3><span class="level-label">SI RESULTS</span></div><div class="result-grid">';
+      html += metric("Water power", f(r.waterPower), "W");
+      html += metric("Overall efficiency", f(r.efficiency, 5), "%");
+      html += metric("Metric specific speed", f(r.specificSpeed), "—");
+      html += metric("Impeller tip speed", f(r.tipSpeed), "m/s");
+      html += metric("Head coefficient", f(r.headCoefficient), "—");
+      html += metric("Flow coefficient", f(r.flowCoefficient), "—");
+      html += metric("Flow rate", f(r.flowRate * 1000), "L/s");
+      html += metric("Shaft input power", f(r.inputPower), "W");
+      html += '</div><div class="solution-steps"><h4>Step-by-step solution</h4>';
+      html += step(1, "Convert all input data to SI units", "Q = " + f(r.flowRate) + " m³/s; H = " + f(r.headM) + " m; D = " + f(r.diameterM) + " m; Pin = " + f(r.inputPower) + " W.");
+      html += step(2, "Calculate water power", "Pw = ρgQH = " + f(Number(centrifugalInput().density)) + " × " + f(Number(centrifugalInput().gravity)) + " × " + f(r.flowRate) + " × " + f(r.headM) + " = " + f(r.waterPower) + " W.");
+      html += step(3, "Calculate overall efficiency", "ηo = (Pw / Pin) × 100 = (" + f(r.waterPower) + " / " + f(r.inputPower) + ") × 100 = " + f(r.efficiency, 5) + "%.");
+      html += step(4, "Calculate impeller tip speed", "u = πDN/60 = π × " + f(r.diameterM) + " × " + f(r.speed) + " / 60 = " + f(r.tipSpeed) + " m/s.");
+      html += step(5, "Calculate metric specific speed", "Ns = N√Q/H^(3/4) = " + f(r.speed) + " × √" + f(r.flowRate) + " / " + f(r.headM) + "^(3/4) = " + f(r.specificSpeed) + ".");
+      html += '</div><div class="mini-callout"><strong>Assumptions:</strong> ' + r.assumptions.join(" ") + '</div>';
+      if (r.warnings.length) html += '<div class="result-warning"><strong>Check these results</strong><br>' + r.warnings.map(escapeHtml).join("<br>") + '</div>';
+      else html += '<div class="result-ok">No basic plausibility warning was triggered. This is not a pump-selection or professional design approval.</div>';
+      $("centrifugalResults").innerHTML = html; $("centrifugalResults").hidden = false;
+    } catch (error) {
+      $("centrifugalError").textContent = error.message;
+      $("centrifugalError").hidden = false;
+      $("centrifugalResults").hidden = true;
+    }
+  });
+  $("resetCentrifugal").addEventListener("click", function () {
+    $("centQ").value = "20"; $("centQUnit").value = "ls";
+    $("centH").value = "30"; $("centHUnit").value = "m";
+    $("centN").value = "1450"; $("centD").value = "250"; $("centDUnit").value = "mm";
+    $("centP").value = "10"; $("centPUnit").value = "kw";
+    $("centRho").value = "1000"; $("centG").value = "9.81";
+    $("centrifugalResults").hidden = true; $("centrifugalError").hidden = true;
+  });
+
   // Small internal regression suite for the calculation engine.
   var tests = window.MechCalcEngineering.runSelfTests();
   var failed = tests.filter(function (test) { return !test.pass; });

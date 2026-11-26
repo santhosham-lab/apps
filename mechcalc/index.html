@@ -20,7 +20,7 @@
       <div class="sidebar-label">WORKSPACE</div>
       <nav class="main-nav" aria-label="Main navigation">
         <button class="nav-item active" data-view="home"><span class="nav-icon">⌂</span> Overview</button>
-        <button class="nav-item" data-view="calculators"><span class="nav-icon">▦</span> Calculators <span class="nav-count">01</span></button>
+        <button class="nav-item" data-view="calculators"><span class="nav-icon">▦</span> Calculators <span class="nav-count">02</span></button>
         <button class="nav-item" data-view="scientific"><span class="nav-icon">∑</span> Scientific calculator</button>
         <button class="nav-item" data-view="converter"><span class="nav-icon">⇄</span> Unit converter</button>
         <button class="nav-item" data-view="ask"><span class="nav-icon">✳</span> Ask MECHCALC <span class="nav-new">NEW</span></button>
@@ -32,7 +32,7 @@
       </nav>
       <div class="sidebar-bottom">
         <div class="free-card"><span class="free-dot"></span><div><strong>Free core tools</strong><small>No account required</small></div></div>
-        <div class="sidebar-foot">MECHCALC <span>v0.1.0</span></div>
+        <div class="sidebar-foot">MECHCALC <span>v0.2.0</span></div>
       </div>
     </aside>
 
@@ -54,7 +54,7 @@
         </div>
         <div class="section-heading"><div><div class="eyebrow">GET STARTED</div><h2>Choose your tool</h2></div><span class="section-note">More engineering modules are being added progressively.</span></div>
         <div class="tool-grid">
-          <button class="tool-card featured-tool" data-go="calculators"><span class="tool-symbol blue-symbol">◈</span><span class="tool-tag">ENGINEERING</span><strong>Engineering calculators</strong><small>Start with reciprocating pump performance and efficiencies.</small><span class="tool-link">Open calculators ↗</span></button>
+          <button class="tool-card featured-tool" data-go="calculators"><span class="tool-symbol blue-symbol">◈</span><span class="tool-tag">ENGINEERING</span><strong>Engineering calculators</strong><small>Hydraulic machinery calculations with worked solutions.</small><span class="tool-link">Open calculators ↗</span></button>
           <button class="tool-card" data-go="scientific"><span class="tool-symbol purple-symbol">∑</span><span class="tool-tag">MATHEMATICS</span><strong>Scientific calculator</strong><small>Trigonometry, logarithms, powers and scientific functions.</small><span class="tool-link">Open calculator ↗</span></button>
           <button class="tool-card" data-go="converter"><span class="tool-symbol green-symbol">⇄</span><span class="tool-tag">UNITS</span><strong>Unit converter</strong><small>Convert common mechanical engineering quantities.</small><span class="tool-link">Convert units ↗</span></button>
           <button class="tool-card" data-go="ask"><span class="tool-symbol amber-symbol">✳</span><span class="tool-tag">QUESTION SOLVER</span><strong>Ask MECHCALC</strong><small>Submit a question as text or attach an image or PDF.</small><span class="tool-link">Open question solver ↗</span></button>
@@ -67,7 +67,7 @@
         <div class="filter-row"><span class="filter-chip selected">All modules</span><span class="filter-chip">Fluid mechanics</span><span class="filter-chip">Hydraulic machinery</span><span class="coming-label">More subjects planned</span></div>
         <div class="calculator-layout">
           <button class="calc-list-card selected" data-calc="reciprocating-pump"><span class="calc-card-icon">◉</span><span><small>FLUID MECHANICS · HYDRAULIC MACHINERY</small><strong>Reciprocating pump</strong><em>Discharge, slip, volumetric and overall efficiency</em></span><span class="calc-arrow">↗</span></button>
-          <div class="planned-card"><span>＋</span><div><strong>Centrifugal pump</strong><small>Planned module</small></div></div>
+          <button class="calc-list-card" data-calc="centrifugal-pump"><span class="calc-card-icon">◌</span><span><small>FLUID MECHANICS · HYDRAULIC MACHINERY</small><strong>Centrifugal pump</strong><em>Water power, efficiency, specific speed and tip speed</em></span><span class="calc-arrow">↗</span></button>
           <div class="planned-card"><span>＋</span><div><strong>Hydraulic turbines</strong><small>Planned module</small></div></div>
           <div class="planned-card"><span>＋</span><div><strong>Pipe flow and losses</strong><small>Planned module</small></div></div>
         </div>
@@ -88,6 +88,22 @@
           <div class="form-actions"><button class="button button-primary" id="solvePump">Calculate performance <span>→</span></button><button class="button button-quiet" id="resetPump">Reset values</button></div>
           <div id="pumpError" class="error-message" role="alert" hidden></div>
           <div id="pumpResults" class="results-panel" hidden aria-live="polite"></div>
+        </div>
+
+        <div class="calculator-workspace" id="centrifugalWorkspace" hidden>
+          <div class="workspace-title"><div><div class="eyebrow">HYDRAULIC MACHINERY</div><h2>Centrifugal pump performance</h2><p>Calculate water power, overall efficiency, metric specific speed and impeller velocity parameters.</p></div><span class="level-label">V2 MODULE</span></div>
+          <div class="input-grid">
+            <label class="field"><span>Discharge <b>Q</b></span><div class="input-unit"><input id="centQ" type="number" min="0" step="any" value="20"><select id="centQUnit"><option value="ls">L/s</option><option value="m3s">m³/s</option><option value="m3h">m³/h</option></select></div></label>
+            <label class="field"><span>Manometric head <b>H</b></span><div class="input-unit"><input id="centH" type="number" min="0" step="any" value="30"><select id="centHUnit"><option value="m">m</option><option value="ft">ft</option></select></div></label>
+            <label class="field"><span>Pump speed <b>N</b></span><div class="input-unit"><input id="centN" type="number" min="0" step="any" value="1450"><span class="unit-static">rpm</span></div></label>
+            <label class="field"><span>Impeller diameter <b>D</b></span><div class="input-unit"><input id="centD" type="number" min="0" step="any" value="250"><select id="centDUnit"><option value="mm">mm</option><option value="m">m</option></select></div></label>
+            <label class="field"><span>Shaft input power <b>P<sub>in</sub></b></span><div class="input-unit"><input id="centP" type="number" min="0" step="any" value="10"><select id="centPUnit"><option value="kw">kW</option><option value="w">W</option></select></div></label>
+            <label class="field"><span>Fluid density <b>ρ</b></span><div class="input-unit"><input id="centRho" type="number" min="0" step="any" value="1000"><span class="unit-static">kg/m³</span></div></label>
+            <label class="field"><span>Gravitational acceleration <b>g</b></span><div class="input-unit"><input id="centG" type="number" min="0" step="any" value="9.81"><span class="unit-static">m/s²</span></div></label>
+          </div>
+          <div class="form-actions"><button class="button button-primary" id="solveCentrifugal">Calculate performance <span>→</span></button><button class="button button-quiet" id="resetCentrifugal">Reset values</button></div>
+          <div id="centrifugalError" class="error-message" role="alert" hidden></div>
+          <div id="centrifugalResults" class="results-panel" hidden aria-live="polite"></div>
         </div>
       </section>
 
@@ -143,6 +159,8 @@
         <div class="page-heading"><div class="eyebrow">ENGINEERING REFERENCE</div><h1>Formula library</h1><p class="lead">A concise reference for the first implemented engineering calculator.</p></div>
         <div class="formula-card"><div class="formula-head"><span>FLUID MECHANICS · RECIPROCATING PUMP</span><span class="formula-level">SI UNITS</span></div><h2>Theoretical discharge</h2><div class="equation">Q<sub>th</sub> = <span>A L N</span><small>60</small></div><p>For a single-acting pump, where A is piston area (m²), L is stroke length (m) and N is speed (rpm).</p><div class="equation secondary-equation">A = πD² / 4</div><hr><h3>Double-acting pump</h3><div class="equation secondary-equation">Q<sub>th</sub> = (2A − a) L N / 60</div><p>Here a is piston-rod cross-sectional area. If rod diameter is not supplied, the simplified approximation 2ALN/60 may be used and must be labelled as such.</p></div>
         <div class="formula-card"><div class="formula-head"><span>PUMP PERFORMANCE</span><span class="formula-level">SI UNITS</span></div><h2>Volumetric efficiency</h2><div class="equation">η<sub>v</sub> = <span>Q<sub>actual</sub></span><small>Q<sub>th</sub></small> × 100%</div><h3>Water power</h3><div class="equation secondary-equation">P<sub>w</sub> = ρ g Q<sub>actual</sub> H</div><h3>Overall efficiency</h3><div class="equation secondary-equation">η<sub>o</sub> = (P<sub>w</sub> / P<sub>in</sub>) × 100%</div><p>Input power must be the shaft power supplied to the pump for this overall-efficiency calculation.</p></div>
+
+        <div class="formula-card"><div class="formula-head"><span>FLUID MECHANICS · CENTRIFUGAL PUMP</span><span class="formula-level">SI UNITS</span></div><h2>Water power</h2><div class="equation">P<sub>w</sub> = ρ g Q H</div><p>Q is the operating discharge (m³/s), H is manometric head (m), ρ is fluid density (kg/m³) and g is gravitational acceleration (m/s²).</p><h3>Overall efficiency</h3><div class="equation secondary-equation">η<sub>o</sub> = (P<sub>w</sub> / P<sub>in</sub>) × 100%</div><h3>Impeller tip speed</h3><div class="equation secondary-equation">u = π D N / 60</div><p>D is impeller diameter in metres and N is rotational speed in rpm.</p><h3>Metric specific speed</h3><div class="equation secondary-equation">N<sub>s</sub> = N √Q / H<sup>3/4</sup></div><p>This convention uses N in rpm, Q in m³/s and H in metres. Specific-speed conventions vary; compare values only when the same convention is used.</p></div>
       </section>
 
       <section class="view" id="view-about">
