@@ -136,11 +136,13 @@
         <div class="ask-layout">
           <div class="ask-main">
             <div class="ai-setup-card">
-              <div class="ai-setup-heading"><div><div class="eyebrow">BRING YOUR OWN AI KEY</div><h3>Connect Google Gemini</h3></div><span class="ai-provider-mark">G</span></div>
-              <p>Use your own Google AI Studio API key. Your key is used only in this browser session and is sent directly to Google with your question.</p>
-              <label class="field"><span>Gemini API key</span><input id="geminiApiKey" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Paste your Gemini API key"></label>
+              <div class="ai-setup-heading"><div><div class="eyebrow">FREE AI • NO KEY REQUIRED</div><h3>Try the free solver</h3></div><span class="ai-provider-mark">AI</span></div>
+              <p>MECHCALC first tries OVHcloud's anonymous AI endpoint for text and image questions. It requires no account, API key or model download. Anonymous use is limited to 2 requests per minute per IP address and model; availability may vary.</p>
+              <div class="ai-setup-heading" style="margin-top:14px"><div><div class="eyebrow">OPTIONAL FALLBACK</div><h3>Connect Google Gemini</h3></div><span class="ai-provider-mark">G</span></div>
+              <p>For PDF questions, or if the free endpoint is unavailable, you can use your own Gemini API key. Your key stays in this page's memory and is sent directly to Google.</p>
+              <label class="field"><span>Gemini API key (optional)</span><input id="geminiApiKey" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Paste your Gemini API key"></label>
               <div class="ai-setup-actions"><a class="inline-link" href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer">Get a Gemini API key ↗</a><button id="forgetGeminiKey" class="button button-quiet" type="button">Forget key</button></div>
-              <p class="ai-key-note" id="aiKeyStatus" aria-live="polite">No key connected. No AI request can be made until you provide your own key.</p>
+              <p class="ai-key-note" id="aiKeyStatus" aria-live="polite">No key connected. Free text/image solver will be attempted first.</p>
             </div>
             <label class="field"><span>Paste your question</span><textarea id="questionText" rows="7" placeholder="Enter the complete engineering question, including numerical data and what you need to calculate..."></textarea></label>
             <div class="upload-zone" id="uploadZone"><input id="questionFile" type="file" accept="image/jpeg,image/png,image/webp,application/pdf,.pdf" multiple hidden><div class="upload-icon">↑</div><strong>Drop a question image or PDF here</strong><small>or <button id="chooseQuestionFile" class="inline-link" type="button">browse files</button> · JPEG, PNG, WebP and PDF</small><div id="fileList" class="file-list"></div><small class="ai-upload-limits">Up to 5 files · 10 MB per file · 20 MB total</small></div>

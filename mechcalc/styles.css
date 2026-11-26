@@ -50,3 +50,8 @@
 .ai-privacy-note p{margin:5px 0 0}
 .ai-setup-card input{width:100%;margin-top:6px}
 @media(max-width:760px){.ai-setup-card,.ai-answer-panel{padding:14px}.ai-setup-actions{align-items:flex-start}.ai-answer-head{align-items:flex-start}}
+
+/* Free anonymous AI provider information */
+.ai-setup-card .ai-setup-heading h3{margin-bottom:5px}
+.ai-setup-card .ai-setup-heading+.ai-setup-heading{padding-top:12px;border-top:1px solid var(--line)}
+.ai-setup-card>p{margin:7px 0 10px}
