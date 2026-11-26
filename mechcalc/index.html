@@ -64,13 +64,17 @@
 
       <section class="view" id="view-calculators">
         <div class="page-heading"><div class="eyebrow">ENGINEERING TOOLBOX</div><h1>Calculators</h1><p class="lead">Select a calculation to enter known values and generate a worked solution.</p></div>
-        <div class="filter-row"><span class="filter-chip selected">All modules</span><span class="filter-chip">Fluid mechanics</span><span class="filter-chip">Hydraulic machinery</span><span class="coming-label">More subjects planned</span></div>
-        <div class="calculator-layout">
-          <button class="calc-list-card selected" data-calc="reciprocating-pump"><span class="calc-card-icon">◉</span><span><small>FLUID MECHANICS · HYDRAULIC MACHINERY</small><strong>Reciprocating pump</strong><em>Discharge, slip, volumetric and overall efficiency</em></span><span class="calc-arrow">↗</span></button>
-          <div class="planned-card"><span>＋</span><div><strong>Centrifugal pump</strong><small>Planned module</small></div></div>
-          <div class="planned-card"><span>＋</span><div><strong>Hydraulic turbines</strong><small>Planned module</small></div></div>
-          <div class="planned-card"><span>＋</span><div><strong>Pipe flow and losses</strong><small>Planned module</small></div></div>
+        <div class="course-topic-browser" aria-label="Course and topic selectors">
+          <section class="selector-panel" aria-labelledby="courseSelectorTitle">
+            <div class="selector-heading"><div><span class="eyebrow">STEP 1</span><h2 id="courseSelectorTitle">Select course</h2></div><span class="selector-count">12 courses</span></div>
+            <div class="selector-list" id="courseSelector" role="listbox" aria-label="Engineering courses"></div>
+          </section>
+          <section class="selector-panel" aria-labelledby="topicSelectorTitle">
+            <div class="selector-heading"><div><span class="eyebrow">STEP 2</span><h2 id="topicSelectorTitle">Select topic</h2></div><span class="selector-count" id="topicCount">—</span></div>
+            <div class="selector-list" id="topicSelector" role="listbox" aria-label="Topics in selected course" aria-live="polite"></div>
+          </section>
         </div>
+        <div class="topic-status" id="topicStatus" role="status" hidden></div>
         <div class="calculator-workspace" id="pumpWorkspace">
           <div class="workspace-title"><div><div class="eyebrow">HYDRAULIC MACHINERY</div><h2>Reciprocating pump performance</h2><p>Calculate theoretical discharge, slip, volumetric efficiency and overall efficiency.</p></div><span class="level-label">BASIC · ADVANCED</span></div>
           <div class="mode-row"><label for="pumpMode">Pump configuration</label><select id="pumpMode"><option value="single">Single-acting</option><option value="double">Double-acting (neglecting rod-side details unless supplied)</option></select></div>
@@ -157,5 +161,6 @@
   <div class="mobile-overlay" id="mobileOverlay"></div>
   <script src="calculations.js"></script>
   <script src="app.js"></script>
+  <script src="course-browser.js"></script>
 </body>
 </html>
