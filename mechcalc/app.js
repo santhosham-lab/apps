@@ -339,7 +339,7 @@
       {id:"composites",name:"Composite materials",detail:"Rule of mixtures calculations"}
     ]}
   ];
-  var selectedCourseId = "fluid";
+  var selectedCourseId = null;
   var supportedCalculatorIds = ["reciprocating-pump","centrifugal-pump"];
   function renderCourses(filter) {
     var list = $("courseList"), q = (filter || "").toLowerCase();
@@ -363,7 +363,7 @@
     $("topicList").innerHTML = "";
     course.topics.forEach(function(topic){
       var button = document.createElement("button");
-      button.type = "button"; button.className = "topic-option" + (topic.id==="reciprocating-pump"?" selected":"");
+      button.type = "button"; button.className = "topic-option";
       button.dataset.topic = topic.id;
       button.innerHTML = '<span class="topic-copy"><strong>'+escapeHtml(topic.name)+'</strong><small>'+escapeHtml(topic.detail)+'</small></span><span class="topic-status">'+(topic.available?"Available":"Planned")+'</span>';
       button.addEventListener("click",function(){
@@ -380,15 +380,9 @@
       });
       $("topicList").appendChild(button);
     });
-    var firstAvailable = course.topics.filter(function(t){return t.available;})[0];
-    if(firstAvailable){
-      selectEngineeringCalc(firstAvailable.id);
-      document.querySelectorAll(".topic-option").forEach(function(el){el.classList.toggle("selected",el.dataset.topic===firstAvailable.id);});
-    } else {
-      $("pumpWorkspace").hidden = true; $("centrifugalWorkspace").hidden = true;
-      $("moduleNotice").innerHTML = "<strong>Calculators for "+escapeHtml(course.name)+"</strong><p>Choose a topic to view its module status. Calculators will be added course by course.</p>";
-      $("moduleNotice").hidden = false;
-    }
+    $("pumpWorkspace").hidden = true; $("centrifugalWorkspace").hidden = true;
+    $("moduleNotice").innerHTML = "<strong>"+escapeHtml(course.name)+"</strong><p>Select a topic above to open its calculator or view its implementation status.</p>";
+    $("moduleNotice").hidden = false;
   }
   $("courseList").addEventListener("click",function(event){
     var button=event.target.closest("[data-course]"); if(!button)return;
@@ -396,7 +390,13 @@
     renderTopics(courseCatalog.filter(function(c){return c.id===selectedCourseId;})[0]);
   });
   $("courseSearch").addEventListener("input",function(){renderCourses(this.value);});
-  renderCourses(""); renderTopics(courseCatalog[0]);
+  renderCourses("");
+  $("selectedCourseTitle").textContent = "No course selected";
+  $("selectedCourseDescription").textContent = "Choose a course from the list to see its topics";
+  $("topicList").innerHTML = '<div class="module-notice">Select a course to load its topics.</div>';
+  $("pumpWorkspace").hidden = true;
+  $("centrifugalWorkspace").hidden = true;
+  $("moduleNotice").hidden = true;
 
   function centrifugalInput() {
     return {
