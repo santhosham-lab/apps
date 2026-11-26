@@ -8,7 +8,7 @@
   <title>MECHCALC | Mechanical Engineering Calculator</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=dded4dc-fix2">
 </head>
 <body>
   <div class="app-shell">
@@ -71,10 +71,10 @@
           </section>
           <section class="selector-panel" aria-labelledby="topicSelectorTitle">
             <div class="selector-heading"><div><span class="eyebrow">STEP 2</span><h2 id="topicSelectorTitle">Select topic</h2></div><span class="selector-count" id="topicCount">—</span></div>
-            <div class="selector-list" id="topicSelector" role="listbox" aria-label="Topics in selected course" aria-live="polite"><button type="button" class="selector-option" role="option" aria-selected="false" data-topic="fluid-properties"><span class="selector-index">01</span><span class="selector-option-copy"><strong>Properties of fluids</strong></span><span class="topic-state">Planned</span></button><button type="button" class="selector-option" role="option" aria-selected="false" data-topic="fluid-statics"><span class="selector-index">02</span><span class="selector-option-copy"><strong>Fluid statics</strong></span><span class="topic-state">Planned</span></button><button type="button" class="selector-option" role="option" aria-selected="false" data-topic="fluid-kinematics"><span class="selector-index">03</span><span class="selector-option-copy"><strong>Fluid kinematics</strong></span><span class="topic-state">Planned</span></button><button type="button" class="selector-option" role="option" aria-selected="false" data-topic="fluid-dynamics"><span class="selector-index">04</span><span class="selector-option-copy"><strong>Fluid dynamics</strong></span><span class="topic-state">Planned</span></button><button type="button" class="selector-option" role="option" aria-selected="false" data-topic="bernoulli"><span class="selector-index">05</span><span class="selector-option-copy"><strong>Bernoulli equation</strong></span><span class="topic-state">Planned</span></button><button type="button" class="selector-option" role="option" aria-selected="false" data-topic="flow-measurement"><span class="selector-index">06</span><span class="selector-option-copy"><strong>Flow measurement</strong></span><span class="topic-state">Planned</span></button><button type="button" class="selector-option" role="option" aria-selected="false" data-topic="pipe-flow"><span class="selector-index">07</span><span class="selector-option-copy"><strong>Flow through pipes and losses</strong></span><span class="topic-state">Planned</span></button><button type="button" class="selector-option" role="option" aria-selected="false" data-topic="boundary-layer"><span class="selector-index">08</span><span class="selector-option-copy"><strong>Boundary layer theory</strong></span><span class="topic-state">Planned</span></button><button type="button" class="selector-option" role="option" aria-selected="false" data-topic="dimensional-analysis"><span class="selector-index">09</span><span class="selector-option-copy"><strong>Dimensional analysis</strong></span><span class="topic-state">Planned</span></button><button type="button" class="selector-option" role="option" aria-selected="false" data-topic="reciprocating-pump"><span class="selector-index">10</span><span class="selector-option-copy"><strong>Reciprocating pump</strong></span><span class="topic-state available">Available</span></button><button type="button" class="selector-option" role="option" aria-selected="false" data-topic="centrifugal-pump"><span class="selector-index">11</span><span class="selector-option-copy"><strong>Centrifugal pump</strong></span><span class="topic-state">Planned</span></button><button type="button" class="selector-option" role="option" aria-selected="false" data-topic="hydraulic-turbines"><span class="selector-index">12</span><span class="selector-option-copy"><strong>Hydraulic turbines</strong></span><span class="topic-state">Planned</span></button></div>
+            <div class="selector-list" id="topicSelector" role="listbox" aria-label="Topics in selected course" aria-live="polite"></div>
           </section>
         </div>
-        <div class="topic-status" id="topicStatus" role="status" hidden></div>
+        <div class="topic-status" id="topicStatus" role="status">Select a course to view its topics.</div>
         <div class="calculator-workspace" id="pumpWorkspace" hidden>
           <div class="workspace-title"><div><div class="eyebrow">HYDRAULIC MACHINERY</div><h2>Reciprocating pump performance</h2><p>Calculate theoretical discharge, slip, volumetric efficiency and overall efficiency.</p></div><span class="level-label">BASIC · ADVANCED</span></div>
           <div class="mode-row"><label for="pumpMode">Pump configuration</label><select id="pumpMode"><option value="single">Single-acting</option><option value="double">Double-acting (neglecting rod-side details unless supplied)</option></select></div>
@@ -161,6 +161,6 @@
   <div class="mobile-overlay" id="mobileOverlay"></div>
   <script src="calculations.js"></script>
   <script src="app.js"></script>
-  <script src="course-browser.js?v=d5b5a41-fix1"></script>
+  <script src="course-browser.js?v=dded4dc-fix2"></script>
 </body>
 </html>

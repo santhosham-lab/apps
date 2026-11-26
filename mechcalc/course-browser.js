@@ -22,7 +22,7 @@
   var workspace=document.getElementById("pumpWorkspace");
   var status=document.getElementById("topicStatus");
   if(!courseList||!topicList||!workspace||!status)return;
-  var selectedCourse="fluid-mechanics";
+  var selectedCourse="";
   var selectedTopic="";
   function button(className,label,selected,index,meta,state){
     var b=document.createElement("button");
@@ -44,7 +44,9 @@
   }
   function renderTopics(){
     var course=courses.find(function(item){return item.id===selectedCourse;});
-    topicList.textContent="";topicCount.textContent=course.topics.length+" topics";
+    topicList.textContent="";
+    if(!course){topicCount.textContent="Select a course";showPrompt();return;}
+    topicCount.textContent=course.topics.length+" topics";
     course.topics.forEach(function(topic,index){
       var available=!!topic.available;
       var b=button("selector-option",topic.name,topic.id===selectedTopic,index,available?"Calculator ready":"",available?"Available":"Planned");
@@ -80,5 +82,4 @@
     selectedTopic=target.dataset.topic;renderTopics();
   });
   renderCourses();renderTopics();
-  selectedTopic="reciprocating-pump";renderTopics();
 })();
