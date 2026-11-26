@@ -51,9 +51,13 @@
       b.dataset.topic=topic.id;topicList.appendChild(b);
     });
     var selected=course.topics.find(function(item){return item.id===selectedTopic;});
-    if(selected)showTopic(selected);\n    else showPrompt();
+    if(selected)showTopic(selected);
+    else showPrompt();
   }
-  function showPrompt(){\n    workspace.hidden=true;status.hidden=false;status.textContent="Select a topic to open its calculator or view its implementation status.";\n  }\n  function showTopic(topic){
+  function showPrompt(){
+    workspace.hidden=true;status.hidden=false;status.textContent="Select a topic to open its calculator or view its implementation status.";
+  }
+  function showTopic(topic){
     if(topic.available){
       status.hidden=true;workspace.hidden=false;
       workspace.scrollIntoView({behavior:"smooth",block:"start"});
