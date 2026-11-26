@@ -3,7 +3,7 @@
   var $ = function (id) { return document.getElementById(id); };
   var navButtons = Array.prototype.slice.call(document.querySelectorAll(".nav-item"));
   var views = Array.prototype.slice.call(document.querySelectorAll(".view"));
-  var viewNames = { home: "Overview", calculators: "Calculators", scientific: "Scientific calculator", converter: "Unit converter", ask: "Ask MECHCALC", formulas: "Formula library", about: "About & limitations" };
+  var viewNames = { home: "Overview", calculators: "Engineering calculators", scientific: "Scientific calculator", converter: "Unit converter", ask: "Ask MECHCALC", formulas: "Formula library", about: "About & limitations" };
 
   function go(view) {
     if (!viewNames[view]) return;
@@ -264,17 +264,139 @@
   });
   $("clearQuestion").addEventListener("click", function () { $("questionText").value = ""; selectedFiles = []; $("questionFile").value = ""; renderFiles(); $("questionStatus").hidden = true; });
 
-  // V2: calculator module switching.
-  var calcCards = Array.prototype.slice.call(document.querySelectorAll("[data-calc]"));
+  // Course-wise and topic-wise engineering calculator directory.
+  var courseCatalog = [
+    { id:"fluid", name:"Fluid Mechanics", topics:[
+      {id:"reciprocating-pump",name:"Reciprocating pump",detail:"Discharge, slip and efficiencies",available:true,group:"Hydraulic Machinery"},
+      {id:"centrifugal-pump",name:"Centrifugal pump",detail:"Water power, efficiency and speed parameters",available:true,group:"Hydraulic Machinery"},
+      {id:"hydraulic-turbines",name:"Hydraulic turbines",detail:"Impulse and reaction turbine calculations",group:"Hydraulic Machinery"},
+      {id:"pipe-flow",name:"Pipe flow and losses",detail:"Continuity, friction and minor losses"},
+      {id:"bernoulli",name:"Bernoulli equation",detail:"Energy equation and applications"},
+      {id:"flow-measurement",name:"Flow measurement",detail:"Venturimeter, orifice meter and pitot tube"},
+      {id:"dimensional-analysis",name:"Dimensional analysis",detail:"Buckingham π theorem and similitude"}
+    ]},
+    { id:"thermo", name:"Thermodynamics", topics:[
+      {id:"first-law",name:"First law of thermodynamics",detail:"Closed and open system energy balances"},
+      {id:"second-law",name:"Second law and entropy",detail:"Entropy changes and cycle analysis"},
+      {id:"gas-processes",name:"Ideal-gas processes",detail:"Isothermal, adiabatic, polytropic processes"},
+      {id:"otto-diesel",name:"Air-standard cycles",detail:"Otto, Diesel and Dual cycles"},
+      {id:"rankine",name:"Rankine cycle",detail:"Steam power cycle performance"}
+    ]},
+    { id:"som", name:"Strength of Materials", topics:[
+      {id:"stress-strain",name:"Stress and strain",detail:"Axial loading and deformation"},
+      {id:"sfd-bmd",name:"Shear force and bending moment",detail:"Beam reactions, SFD and BMD"},
+      {id:"bending",name:"Bending stresses",detail:"Flexure formula and section properties"},
+      {id:"torsion",name:"Torsion of shafts",detail:"Shear stress and angle of twist"},
+      {id:"columns",name:"Columns and buckling",detail:"Euler and Rankine formulae"}
+    ]},
+    { id:"tom", name:"Theory of Machines", topics:[
+      {id:"kinematics",name:"Mechanism kinematics",detail:"Velocity and acceleration analysis"},
+      {id:"gears",name:"Gear trains",detail:"Simple, compound and epicyclic gear trains"},
+      {id:"flywheel",name:"Flywheel",detail:"Coefficient of fluctuation and energy"},
+      {id:"governors",name:"Governors",detail:"Porter and Proell governor calculations"},
+      {id:"vibrations",name:"Mechanical vibrations",detail:"Natural frequency and damping"}
+    ]},
+    { id:"heat", name:"Heat Transfer", topics:[
+      {id:"conduction",name:"Heat conduction",detail:"Plane, cylindrical and composite walls"},
+      {id:"convection",name:"Convection",detail:"Heat transfer coefficients and correlations"},
+      {id:"radiation",name:"Thermal radiation",detail:"Radiative heat exchange"},
+      {id:"heat-exchangers",name:"Heat exchangers",detail:"LMTD and effectiveness-NTU"}
+    ]},
+    { id:"design", name:"Machine Design", topics:[
+      {id:"failure-theories",name:"Failure theories",detail:"Principal stresses and design criteria"},
+      {id:"shafts",name:"Shaft design",detail:"Strength and rigidity design"},
+      {id:"keys-couplings",name:"Keys and couplings",detail:"Torque transmission and sizing"},
+      {id:"bearings",name:"Bearings",detail:"Rolling contact bearing life"},
+      {id:"springs",name:"Springs",detail:"Helical spring stresses and deflection"}
+    ]},
+    { id:"manufacturing", name:"Manufacturing Technology", topics:[
+      {id:"machining",name:"Machining calculations",detail:"Cutting speed, feed, time and MRR"},
+      {id:"casting",name:"Casting",detail:"Solidification and riser design"},
+      {id:"welding",name:"Welding",detail:"Weld strength and joint calculations"},
+      {id:"forming",name:"Metal forming",detail:"Rolling, forging and extrusion"}
+    ]},
+    { id:"rac", name:"Refrigeration and Air Conditioning", topics:[
+      {id:"vcrs",name:"Vapour compression system",detail:"COP, refrigerating effect and power"},
+      {id:"psychrometry",name:"Psychrometry",detail:"Moist-air properties and processes"},
+      {id:"cooling-load",name:"Cooling load",detail:"Sensible and latent heat loads"}
+    ]},
+    { id:"automobile", name:"Automobile Engineering", topics:[
+      {id:"engine-performance",name:"IC engine performance",detail:"Brake power, indicated power and efficiencies"},
+      {id:"vehicle-dynamics",name:"Vehicle dynamics",detail:"Tractive effort, power and gradeability"},
+      {id:"transmission",name:"Transmission systems",detail:"Gear ratios and driveline calculations"}
+    ]},
+    { id:"power", name:"Power Plant Engineering", topics:[
+      {id:"boiler",name:"Boiler performance",detail:"Equivalent evaporation and efficiency"},
+      {id:"steam-plant",name:"Steam power plant",detail:"Plant heat rate and overall efficiency"},
+      {id:"gas-turbine",name:"Gas turbine plants",detail:"Compressor and turbine work"}
+    ]},
+    { id:"metrology", name:"Metrology and Measurements", topics:[
+      {id:"limits-fits",name:"Limits, fits and tolerances",detail:"Allowance and tolerance calculations"},
+      {id:"measurement-errors",name:"Measurement and errors",detail:"Uncertainty and error propagation"}
+    ]},
+    { id:"materials", name:"Engineering Materials", topics:[
+      {id:"material-properties",name:"Material properties",detail:"Density, hardness and mechanical properties"},
+      {id:"composites",name:"Composite materials",detail:"Rule of mixtures calculations"}
+    ]}
+  ];
+  var selectedCourseId = "fluid";
+  var supportedCalculatorIds = ["reciprocating-pump","centrifugal-pump"];
+  function renderCourses(filter) {
+    var list = $("courseList"), q = (filter || "").toLowerCase();
+    list.innerHTML = "";
+    courseCatalog.filter(function(c){return c.name.toLowerCase().indexOf(q)>=0;}).forEach(function(course){
+      var button = document.createElement("button");
+      button.type = "button"; button.className = "course-option" + (course.id===selectedCourseId?" selected":"");
+      button.dataset.course = course.id; button.setAttribute("role","option"); button.setAttribute("aria-selected",course.id===selectedCourseId?"true":"false");
+      button.innerHTML = "<strong>"+escapeHtml(course.name)+"</strong><small>"+course.topics.length+" topics</small>";
+      list.appendChild(button);
+    });
+  }
   function selectEngineeringCalc(name) {
-    calcCards.forEach(function (card) { card.classList.toggle("selected", card.dataset.calc === name); });
     $("pumpWorkspace").hidden = name !== "reciprocating-pump";
     $("centrifugalWorkspace").hidden = name !== "centrifugal-pump";
+    $("moduleNotice").hidden = supportedCalculatorIds.indexOf(name)>=0;
   }
-  calcCards.forEach(function (card) {
-    card.addEventListener("click", function () { selectEngineeringCalc(card.dataset.calc); });
+  function renderTopics(course) {
+    $("selectedCourseTitle").textContent = course.name;
+    $("selectedCourseDescription").textContent = "Select a topic to view its calculator and required inputs";
+    $("topicList").innerHTML = "";
+    course.topics.forEach(function(topic){
+      var button = document.createElement("button");
+      button.type = "button"; button.className = "topic-option" + (topic.id==="reciprocating-pump"?" selected":"");
+      button.dataset.topic = topic.id;
+      button.innerHTML = '<span class="topic-copy"><strong>'+escapeHtml(topic.name)+'</strong><small>'+escapeHtml(topic.detail)+'</small></span><span class="topic-status">'+(topic.available?"Available":"Planned")+'</span>';
+      button.addEventListener("click",function(){
+        document.querySelectorAll(".topic-option").forEach(function(el){el.classList.toggle("selected",el===button);});
+        if(topic.available){
+          $("moduleNotice").hidden = true;
+          selectEngineeringCalc(topic.id);
+          $("pumpWorkspace").scrollIntoView({behavior:"smooth",block:"start"});
+        } else {
+          $("pumpWorkspace").hidden = true; $("centrifugalWorkspace").hidden = true;
+          $("moduleNotice").innerHTML = "<strong>"+escapeHtml(topic.name)+"</strong><p>This calculator is listed in the course directory but has not been implemented yet. It will appear here with its own input fields, equations and worked solution when its calculation module is added.</p>";
+          $("moduleNotice").hidden = false;
+        }
+      });
+      $("topicList").appendChild(button);
+    });
+    var firstAvailable = course.topics.filter(function(t){return t.available;})[0];
+    if(firstAvailable){
+      selectEngineeringCalc(firstAvailable.id);
+      document.querySelectorAll(".topic-option").forEach(function(el){el.classList.toggle("selected",el.dataset.topic===firstAvailable.id);});
+    } else {
+      $("pumpWorkspace").hidden = true; $("centrifugalWorkspace").hidden = true;
+      $("moduleNotice").innerHTML = "<strong>Calculators for "+escapeHtml(course.name)+"</strong><p>Choose a topic to view its module status. Calculators will be added course by course.</p>";
+      $("moduleNotice").hidden = false;
+    }
+  }
+  $("courseList").addEventListener("click",function(event){
+    var button=event.target.closest("[data-course]"); if(!button)return;
+    selectedCourseId=button.dataset.course; renderCourses($("courseSearch").value);
+    renderTopics(courseCatalog.filter(function(c){return c.id===selectedCourseId;})[0]);
   });
-  selectEngineeringCalc("reciprocating-pump");
+  $("courseSearch").addEventListener("input",function(){renderCourses(this.value);});
+  renderCourses(""); renderTopics(courseCatalog[0]);
 
   function centrifugalInput() {
     return {

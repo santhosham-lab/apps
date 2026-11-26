@@ -2,3 +2,32 @@
 @media(max-width:1180px){.main-area{padding:0 28px}.tool-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.input-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.result-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hero-art{right:0;width:38%}}
 @media(max-width:760px){.sidebar{transform:translateX(-100%);transition:transform .22s ease;width:265px;box-shadow:10px 0 30px rgba(9,20,38,.18)}.sidebar.open{transform:translateX(0)}.mobile-overlay.show{display:block;position:fixed;inset:0;background:rgba(10,19,32,.42);z-index:15}.main-area{margin-left:0;padding:0 17px}.topbar{height:58px;margin-bottom:25px}.menu-toggle{display:block;border:1px solid #e0e6ee;background:white;border-radius:6px;padding:6px 9px;color:#4e617d}.breadcrumb{margin-right:auto;margin-left:12px}.topbar-right{font-size:0;gap:7px}.topbar-avatar{font-size:11px}.welcome-row{margin-top:3px}.welcome-row h1{font-size:30px}.welcome-stamp{width:60px;height:60px;margin-right:0}.welcome-stamp span{font-size:16px}.hero-panel{padding:27px 23px;min-height:255px}.hero-panel h2{font-size:27px}.hero-panel p{max-width:280px}.hero-art{opacity:.35;right:-20%;width:65%}.section-heading{align-items:flex-start;gap:10px;flex-direction:column}.section-note{line-height:1.5}.tool-grid{gap:9px}.tool-card{padding:13px;min-height:180px}.tool-card strong{font-size:11px}.tool-card small{font-size:9px}.page-heading h1{font-size:28px}.calculator-layout{grid-template-columns:1fr}.calculator-workspace{padding:17px}.workspace-title{flex-direction:column}.input-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.input-unit input{padding:10px 8px}.input-unit select{max-width:78px;padding:10px 5px}.result-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.scientific-layout,.ask-layout,.about-grid{grid-template-columns:1fr}.calculator-help{order:2}.converter-panel{padding:17px}.conversion-grid{grid-template-columns:1fr 36px 1fr;gap:7px}.conversion-grid .input-unit{flex-direction:column;align-items:stretch}.conversion-grid .input-unit select{max-width:none;border-left:0;border-top:1px solid #e6eaf0}.conversion-grid .input-unit input,.conversion-grid .input-unit output{font-size:14px;padding:12px 8px}.conversion-foot{align-items:flex-start;flex-direction:column}.ask-main,.ask-side{padding:16px}.app-footer{flex-direction:column;line-height:1.5}.welcome-stamp{display:none}}
 @media(max-width:390px){.main-area{padding:0 12px}.tool-grid{grid-template-columns:1fr 1fr}.tool-card{min-height:190px}.input-grid{grid-template-columns:1fr}.conversion-grid{grid-template-columns:1fr}.swap-cell{padding:0}.swap-button{transform:rotate(90deg)}.conversion-grid .input-unit{flex-direction:row}.conversion-grid .input-unit select{max-width:100px;border-left:1px solid #e6eaf0;border-top:0}.result-grid{grid-template-columns:1fr 1fr}.hero-panel{padding:24px 18px}.hero-panel h2{font-size:24px}}
+
+
+/* Course-wise calculator browser */
+.course-browser{display:grid;grid-template-columns:minmax(220px,.78fr) minmax(0,1.5fr);gap:14px;margin:20px 0 16px;align-items:stretch}
+.course-panel,.topic-panel{background:#fff;border:1px solid var(--line);border-radius:11px;min-width:0;overflow:hidden}
+.browser-heading{padding:17px 18px 12px;border-bottom:1px solid var(--line)}
+.browser-heading h2{font-size:17px;margin:5px 0}
+.browser-heading>span{font-size:10px;color:#8490a1;line-height:1.5}
+.course-search{margin:12px 13px;display:flex;align-items:center;gap:8px;padding:0 10px;border:1px solid #e1e7ef;border-radius:7px;color:#8190a5}
+.course-search input{width:100%;min-width:0;border:0;outline:0;padding:10px 0;font:11px system-ui,sans-serif;color:#26364e;background:transparent}
+.course-list{max-height:340px;overflow-y:auto;padding:0 9px 10px;overscroll-behavior:contain}
+.course-option{display:flex;width:100%;align-items:center;justify-content:space-between;gap:8px;text-align:left;padding:11px 10px;border:1px solid transparent;border-radius:7px;background:transparent;cursor:pointer;color:#42536d;margin:2px 0}
+.course-option strong{font-size:10px;font-weight:700}
+.course-option small{font-size:9px;color:#97a2b1;white-space:nowrap}
+.course-option:hover,.topic-option:hover{background:#f6f8fc}
+.course-option.selected{background:#eef4ff;border-color:#d8e5fb;color:#245fc1}
+.topic-list{max-height:420px;overflow-y:auto;padding:9px;overscroll-behavior:contain}
+.topic-option{display:flex;width:100%;align-items:center;justify-content:space-between;gap:12px;text-align:left;padding:13px 12px;border:1px solid #e8edf3;border-radius:8px;background:#fff;cursor:pointer;margin:4px 0;color:#31425d}
+.topic-option.selected{border-color:#8eafe6;background:#f5f8ff;box-shadow:0 0 0 2px #edf3ff}
+.topic-copy{display:flex;flex-direction:column;gap:4px;min-width:0}
+.topic-copy strong{font-size:11px}
+.topic-copy small{font-size:9px;color:#8793a5;line-height:1.4}
+.topic-status{font-size:8px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:#9aa5b5;white-space:nowrap}
+.topic-option:has(.topic-status){ }
+.topic-option.selected .topic-status{color:#356bc5}
+.module-notice{margin:15px 0;padding:18px 20px;border:1px dashed #cbd7e6;background:#f8fafd;border-radius:9px;color:#53657e;font-size:11px;line-height:1.7}
+.module-notice strong{font-size:14px;color:#2d405c}
+.module-notice p{margin:6px 0 0;color:#7a8799}
+@media(max-width:760px){.course-browser{grid-template-columns:1fr;gap:10px}.course-list{max-height:190px}.topic-list{max-height:300px}.browser-heading{padding:14px 15px 10px}}

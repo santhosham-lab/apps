@@ -20,7 +20,7 @@
       <div class="sidebar-label">WORKSPACE</div>
       <nav class="main-nav" aria-label="Main navigation">
         <button class="nav-item active" data-view="home"><span class="nav-icon">⌂</span> Overview</button>
-        <button class="nav-item" data-view="calculators"><span class="nav-icon">▦</span> Calculators <span class="nav-count">02</span></button>
+        <button class="nav-item" data-view="calculators"><span class="nav-icon">▦</span> Engineering calculators</button>
         <button class="nav-item" data-view="scientific"><span class="nav-icon">∑</span> Scientific calculator</button>
         <button class="nav-item" data-view="converter"><span class="nav-icon">⇄</span> Unit converter</button>
         <button class="nav-item" data-view="ask"><span class="nav-icon">✳</span> Ask MECHCALC <span class="nav-new">NEW</span></button>
@@ -64,13 +64,18 @@
 
       <section class="view" id="view-calculators">
         <div class="page-heading"><div class="eyebrow">ENGINEERING TOOLBOX</div><h1>Calculators</h1><p class="lead">Select a calculation to enter known values and generate a worked solution.</p></div>
-        <div class="filter-row"><span class="filter-chip selected">All modules</span><span class="filter-chip">Fluid mechanics</span><span class="filter-chip">Hydraulic machinery</span><span class="coming-label">More subjects planned</span></div>
-        <div class="calculator-layout">
-          <button class="calc-list-card selected" data-calc="reciprocating-pump"><span class="calc-card-icon">◉</span><span><small>FLUID MECHANICS · HYDRAULIC MACHINERY</small><strong>Reciprocating pump</strong><em>Discharge, slip, volumetric and overall efficiency</em></span><span class="calc-arrow">↗</span></button>
-          <button class="calc-list-card" data-calc="centrifugal-pump"><span class="calc-card-icon">◌</span><span><small>FLUID MECHANICS · HYDRAULIC MACHINERY</small><strong>Centrifugal pump</strong><em>Water power, efficiency, specific speed and tip speed</em></span><span class="calc-arrow">↗</span></button>
-          <div class="planned-card"><span>＋</span><div><strong>Hydraulic turbines</strong><small>Planned module</small></div></div>
-          <div class="planned-card"><span>＋</span><div><strong>Pipe flow and losses</strong><small>Planned module</small></div></div>
+        <div class="course-browser">
+          <aside class="course-panel">
+            <div class="browser-heading"><div class="eyebrow">COURSE DIRECTORY</div><h2>Courses</h2><span>Choose a Mechanical Engineering course</span></div>
+            <label class="course-search"><span>⌕</span><input id="courseSearch" type="search" placeholder="Search courses"></label>
+            <div class="course-list" id="courseList" role="listbox" aria-label="Mechanical Engineering courses"></div>
+          </aside>
+          <section class="topic-panel">
+            <div class="browser-heading"><div class="eyebrow">TOPIC DIRECTORY</div><h2 id="selectedCourseTitle">Fluid Mechanics</h2><span id="selectedCourseDescription">Choose a topic to open its calculator</span></div>
+            <div class="topic-list" id="topicList" aria-label="Topics in selected course"></div>
+          </section>
         </div>
+        <div class="module-notice" id="moduleNotice" hidden aria-live="polite"></div>
         <div class="calculator-workspace" id="pumpWorkspace">
           <div class="workspace-title"><div><div class="eyebrow">HYDRAULIC MACHINERY</div><h2>Reciprocating pump performance</h2><p>Calculate theoretical discharge, slip, volumetric efficiency and overall efficiency.</p></div><span class="level-label">BASIC · ADVANCED</span></div>
           <div class="mode-row"><label for="pumpMode">Pump configuration</label><select id="pumpMode"><option value="single">Single-acting</option><option value="double">Double-acting (neglecting rod-side details unless supplied)</option></select></div>
