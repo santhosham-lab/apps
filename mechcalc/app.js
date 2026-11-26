@@ -306,6 +306,8 @@
       html += step(3, "Calculate overall efficiency", "ηo = (Pw / Pin) × 100 = (" + f(r.waterPower) + " / " + f(r.inputPower) + ") × 100 = " + f(r.efficiency, 5) + "%.");
       html += step(4, "Calculate impeller tip speed", "u = πDN/60 = π × " + f(r.diameterM) + " × " + f(r.speed) + " / 60 = " + f(r.tipSpeed) + " m/s.");
       html += step(5, "Calculate metric specific speed", "Ns = N√Q/H^(3/4) = " + f(r.speed) + " × √" + f(r.flowRate) + " / " + f(r.headM) + "^(3/4) = " + f(r.specificSpeed) + ".");
+      html += step(6, "Calculate head coefficient", "ψ = gH/u² = " + f(Number(centrifugalInput().gravity)) + " × " + f(r.headM) + " / (" + f(r.tipSpeed) + ")² = " + f(r.headCoefficient) + ".");
+      html += step(7, "Calculate flow coefficient", "φ = Q/(nD³), where n = N/60 rev/s. φ = " + f(r.flowRate) + " / (" + f(r.speed / 60) + " × " + f(r.diameterM) + "³) = " + f(r.flowCoefficient) + ".");
       html += '</div><div class="mini-callout"><strong>Assumptions:</strong> ' + r.assumptions.join(" ") + '</div>';
       if (r.warnings.length) html += '<div class="result-warning"><strong>Check these results</strong><br>' + r.warnings.map(escapeHtml).join("<br>") + '</div>';
       else html += '<div class="result-ok">No basic plausibility warning was triggered. This is not a pump-selection or professional design approval.</div>';
