@@ -23,7 +23,7 @@
   var status=document.getElementById("topicStatus");
   if(!courseList||!topicList||!workspace||!status)return;
   var selectedCourse="fluid-mechanics";
-  var selectedTopic="reciprocating-pump";
+  var selectedTopic="";
   function button(className,label,selected,index,meta,state){
     var b=document.createElement("button");
     b.type="button";b.className="selector-option";b.setAttribute("role","option");b.setAttribute("aria-selected",selected?"true":"false");
@@ -51,9 +51,9 @@
       b.dataset.topic=topic.id;topicList.appendChild(b);
     });
     var selected=course.topics.find(function(item){return item.id===selectedTopic;});
-    if(selected)showTopic(selected);
+    if(selected)showTopic(selected);\n    else showPrompt();
   }
-  function showTopic(topic){
+  function showPrompt(){\n    workspace.hidden=true;status.hidden=false;status.textContent="Select a topic to open its calculator or view its implementation status.";\n  }\n  function showTopic(topic){
     if(topic.available){
       status.hidden=true;workspace.hidden=false;
       workspace.scrollIntoView({behavior:"smooth",block:"start"});
@@ -68,7 +68,7 @@
     var target=event.target.closest("button[data-course]");if(!target)return;
     selectedCourse=target.dataset.course;
     var course=courses.find(function(item){return item.id===selectedCourse;});
-    selectedTopic=course.topics[0].id;
+    selectedTopic="";
     renderCourses();renderTopics();
   });
   topicList.addEventListener("click",function(event){
