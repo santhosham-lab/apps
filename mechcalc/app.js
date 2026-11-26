@@ -3,7 +3,7 @@
   var $ = function (id) { return document.getElementById(id); };
   var navButtons = Array.prototype.slice.call(document.querySelectorAll(".nav-item"));
   var views = Array.prototype.slice.call(document.querySelectorAll(".view"));
-  var viewNames = { home: "Overview", calculators: "Engineering calculators", scientific: "Scientific calculator", converter: "Unit converter", ask: "Ask MECHCALC", formulas: "Formula library", about: "About & limitations" };
+  var viewNames = { home: "Overview", calculators: "Calculators", scientific: "Scientific calculator", converter: "Unit converter", ask: "Ask MECHCALC", formulas: "Formula library", about: "About & limitations" };
 
   function go(view) {
     if (!viewNames[view]) return;
@@ -114,10 +114,11 @@
     }
     function term() {
       var value = unary();
-      while (peek() === "*" || peek() === "/") {
+      while (peek() === "*" || peek() === "/" || peek() === "%") {
         var op = take(), right = unary();
         if (op === "*") value *= right;
         else if (op === "/") value /= right;
+        else value %= right;
       }
       return value;
     }
@@ -133,7 +134,7 @@
     }
     function postfix() {
       var value = primary();
-      while (peek() === "!" || peek() === "%") { var suffix = take(); if (suffix === "%") value /= 100; else { if (value < 0 || value > 170 || Math.floor(value) !== value) throw new Error("Factorial requires an integer from 0 to 170."); var n = 1; for (var k = 2; k <= value; k++) n *= k; value = n; } }
+      while (peek() === "!") { take(); if (value < 0 || value > 170 || Math.floor(value) !== value) throw new Error("Factorial requires an integer from 0 to 170."); var n = 1; for (var k = 2; k <= value; k++) n *= k; value = n; }
       return value;
     }
     function primary() {
@@ -263,60 +264,6 @@
     $("questionStatus").textContent = summary; $("questionStatus").hidden = false;
   });
   $("clearQuestion").addEventListener("click", function () { $("questionText").value = ""; selectedFiles = []; $("questionFile").value = ""; renderFiles(); $("questionStatus").hidden = true; });
-
-  // Course-wise and topic-wise engineering calculator directory.
-  // Course directory is initialized independently by course-browser.js.
-
-  function centrifugalInput() {
-    return {
-      flowRate: $("centQ").value, flowUnit: $("centQUnit").value,
-      head: $("centH").value, headUnit: $("centHUnit").value,
-      speed: $("centN").value, impellerDiameter: $("centD").value,
-      diameterUnit: $("centDUnit").value, inputPower: $("centP").value,
-      powerUnit: $("centPUnit").value, density: $("centRho").value,
-      gravity: $("centG").value
-    };
-  }
-  $("solveCentrifugal").addEventListener("click", function () {
-    $("centrifugalError").hidden = true;
-    try {
-      var r = window.MechCalcEngineering.solveCentrifugalPump(centrifugalInput());
-      var f = window.MechCalcEngineering.formatNumber;
-      var html = '<div class="results-title"><h3>Calculated performance</h3><span class="level-label">SI RESULTS</span></div><div class="result-grid">';
-      html += metric("Water power", f(r.waterPower), "W");
-      html += metric("Overall efficiency", f(r.efficiency, 5), "%");
-      html += metric("Metric specific speed", f(r.specificSpeed), "—");
-      html += metric("Impeller tip speed", f(r.tipSpeed), "m/s");
-      html += metric("Head coefficient", f(r.headCoefficient), "—");
-      html += metric("Flow coefficient", f(r.flowCoefficient), "—");
-      html += metric("Flow rate", f(r.flowRate * 1000), "L/s");
-      html += metric("Shaft input power", f(r.inputPower), "W");
-      html += '</div><div class="solution-steps"><h4>Step-by-step solution</h4>';
-      html += step(1, "Convert all input data to SI units", "Q = " + f(r.flowRate) + " m³/s; H = " + f(r.headM) + " m; D = " + f(r.diameterM) + " m; Pin = " + f(r.inputPower) + " W.");
-      html += step(2, "Calculate water power", "Pw = ρgQH = " + f(Number(centrifugalInput().density)) + " × " + f(Number(centrifugalInput().gravity)) + " × " + f(r.flowRate) + " × " + f(r.headM) + " = " + f(r.waterPower) + " W.");
-      html += step(3, "Calculate overall efficiency", "ηo = (Pw / Pin) × 100 = (" + f(r.waterPower) + " / " + f(r.inputPower) + ") × 100 = " + f(r.efficiency, 5) + "%.");
-      html += step(4, "Calculate impeller tip speed", "u = πDN/60 = π × " + f(r.diameterM) + " × " + f(r.speed) + " / 60 = " + f(r.tipSpeed) + " m/s.");
-      html += step(5, "Calculate metric specific speed", "Ns = N√Q/H^(3/4) = " + f(r.speed) + " × √" + f(r.flowRate) + " / " + f(r.headM) + "^(3/4) = " + f(r.specificSpeed) + ".");
-      html += step(6, "Calculate head coefficient", "ψ = gH/u² = " + f(Number(centrifugalInput().gravity)) + " × " + f(r.headM) + " / (" + f(r.tipSpeed) + ")² = " + f(r.headCoefficient) + ".");
-      html += step(7, "Calculate flow coefficient", "φ = Q/(nD³), where n = N/60 rev/s. φ = " + f(r.flowRate) + " / (" + f(r.speed / 60) + " × " + f(r.diameterM) + "³) = " + f(r.flowCoefficient) + ".");
-      html += '</div><div class="mini-callout"><strong>Assumptions:</strong> ' + r.assumptions.join(" ") + '</div>';
-      if (r.warnings.length) html += '<div class="result-warning"><strong>Check these results</strong><br>' + r.warnings.map(escapeHtml).join("<br>") + '</div>';
-      else html += '<div class="result-ok">No basic plausibility warning was triggered. This is not a pump-selection or professional design approval.</div>';
-      $("centrifugalResults").innerHTML = html; $("centrifugalResults").hidden = false;
-    } catch (error) {
-      $("centrifugalError").textContent = error.message;
-      $("centrifugalError").hidden = false;
-      $("centrifugalResults").hidden = true;
-    }
-  });
-  $("resetCentrifugal").addEventListener("click", function () {
-    $("centQ").value = "20"; $("centQUnit").value = "ls";
-    $("centH").value = "30"; $("centHUnit").value = "m";
-    $("centN").value = "1450"; $("centD").value = "250"; $("centDUnit").value = "mm";
-    $("centP").value = "10"; $("centPUnit").value = "kw";
-    $("centRho").value = "1000"; $("centG").value = "9.81";
-    $("centrifugalResults").hidden = true; $("centrifugalError").hidden = true;
-  });
 
   // Small internal regression suite for the calculation engine.
   var tests = window.MechCalcEngineering.runSelfTests();

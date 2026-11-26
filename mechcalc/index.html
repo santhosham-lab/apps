@@ -8,7 +8,7 @@
   <title>MECHCALC | Mechanical Engineering Calculator</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="app-shell">
@@ -20,7 +20,7 @@
       <div class="sidebar-label">WORKSPACE</div>
       <nav class="main-nav" aria-label="Main navigation">
         <button class="nav-item active" data-view="home"><span class="nav-icon">⌂</span> Overview</button>
-        <button class="nav-item" data-view="calculators"><span class="nav-icon">▦</span> Engineering calculators</button>
+        <button class="nav-item" data-view="calculators"><span class="nav-icon">▦</span> Calculators <span class="nav-count">01</span></button>
         <button class="nav-item" data-view="scientific"><span class="nav-icon">∑</span> Scientific calculator</button>
         <button class="nav-item" data-view="converter"><span class="nav-icon">⇄</span> Unit converter</button>
         <button class="nav-item" data-view="ask"><span class="nav-icon">✳</span> Ask MECHCALC <span class="nav-new">NEW</span></button>
@@ -32,7 +32,7 @@
       </nav>
       <div class="sidebar-bottom">
         <div class="free-card"><span class="free-dot"></span><div><strong>Free core tools</strong><small>No account required</small></div></div>
-        <div class="sidebar-foot">MECHCALC <span>v0.2.0</span></div>
+        <div class="sidebar-foot">MECHCALC <span>v0.1.0</span></div>
       </div>
     </aside>
 
@@ -54,7 +54,7 @@
         </div>
         <div class="section-heading"><div><div class="eyebrow">GET STARTED</div><h2>Choose your tool</h2></div><span class="section-note">More engineering modules are being added progressively.</span></div>
         <div class="tool-grid">
-          <button class="tool-card featured-tool" data-go="calculators"><span class="tool-symbol blue-symbol">◈</span><span class="tool-tag">ENGINEERING</span><strong>Engineering calculators</strong><small>Hydraulic machinery calculations with worked solutions.</small><span class="tool-link">Open calculators ↗</span></button>
+          <button class="tool-card featured-tool" data-go="calculators"><span class="tool-symbol blue-symbol">◈</span><span class="tool-tag">ENGINEERING</span><strong>Engineering calculators</strong><small>Start with reciprocating pump performance and efficiencies.</small><span class="tool-link">Open calculators ↗</span></button>
           <button class="tool-card" data-go="scientific"><span class="tool-symbol purple-symbol">∑</span><span class="tool-tag">MATHEMATICS</span><strong>Scientific calculator</strong><small>Trigonometry, logarithms, powers and scientific functions.</small><span class="tool-link">Open calculator ↗</span></button>
           <button class="tool-card" data-go="converter"><span class="tool-symbol green-symbol">⇄</span><span class="tool-tag">UNITS</span><strong>Unit converter</strong><small>Convert common mechanical engineering quantities.</small><span class="tool-link">Convert units ↗</span></button>
           <button class="tool-card" data-go="ask"><span class="tool-symbol amber-symbol">✳</span><span class="tool-tag">QUESTION SOLVER</span><strong>Ask MECHCALC</strong><small>Submit a question as text or attach an image or PDF.</small><span class="tool-link">Open question solver ↗</span></button>
@@ -63,14 +63,15 @@
       </section>
 
       <section class="view" id="view-calculators">
-        <div class="page-heading"><div class="eyebrow">ENGINEERING TOOLBOX</div><h1>Calculators</h1><p class="lead">Select a course, then a topic, to open its calculator and enter the required values.</p></div>
-        <section class="mc-selector" aria-label="Course and topic selector">
- <div class="mc-selector-column"><h2 class="mc-selector-heading">Courses</h2><p class="mc-selector-help">Choose a Mechanical Engineering course</p><div id="mcCourseScroll" class="mc-selector-scroll" role="listbox" aria-label="Courses"></div></div>
- <div class="mc-selector-column"><h2 id="mcTopicHeading" class="mc-selector-heading">Topics</h2><p id="mcTopicHelp" class="mc-selector-help">Select a course to see its topics</p><div id="mcTopicScroll" class="mc-selector-scroll" role="listbox" aria-label="Topics"></div></div>
-</section>
-<div class="mc-selection-message" id="mcSelectionMessage" hidden aria-live="polite"></div>
-<div class="module-notice" id="moduleNotice" hidden aria-live="polite"></div>
-        <div class="calculator-workspace" id="pumpWorkspace" hidden>
+        <div class="page-heading"><div class="eyebrow">ENGINEERING TOOLBOX</div><h1>Calculators</h1><p class="lead">Select a calculation to enter known values and generate a worked solution.</p></div>
+        <div class="filter-row"><span class="filter-chip selected">All modules</span><span class="filter-chip">Fluid mechanics</span><span class="filter-chip">Hydraulic machinery</span><span class="coming-label">More subjects planned</span></div>
+        <div class="calculator-layout">
+          <button class="calc-list-card selected" data-calc="reciprocating-pump"><span class="calc-card-icon">◉</span><span><small>FLUID MECHANICS · HYDRAULIC MACHINERY</small><strong>Reciprocating pump</strong><em>Discharge, slip, volumetric and overall efficiency</em></span><span class="calc-arrow">↗</span></button>
+          <div class="planned-card"><span>＋</span><div><strong>Centrifugal pump</strong><small>Planned module</small></div></div>
+          <div class="planned-card"><span>＋</span><div><strong>Hydraulic turbines</strong><small>Planned module</small></div></div>
+          <div class="planned-card"><span>＋</span><div><strong>Pipe flow and losses</strong><small>Planned module</small></div></div>
+        </div>
+        <div class="calculator-workspace" id="pumpWorkspace">
           <div class="workspace-title"><div><div class="eyebrow">HYDRAULIC MACHINERY</div><h2>Reciprocating pump performance</h2><p>Calculate theoretical discharge, slip, volumetric efficiency and overall efficiency.</p></div><span class="level-label">BASIC · ADVANCED</span></div>
           <div class="mode-row"><label for="pumpMode">Pump configuration</label><select id="pumpMode"><option value="single">Single-acting</option><option value="double">Double-acting (neglecting rod-side details unless supplied)</option></select></div>
           <div class="input-grid">
@@ -87,22 +88,6 @@
           <div class="form-actions"><button class="button button-primary" id="solvePump">Calculate performance <span>→</span></button><button class="button button-quiet" id="resetPump">Reset values</button></div>
           <div id="pumpError" class="error-message" role="alert" hidden></div>
           <div id="pumpResults" class="results-panel" hidden aria-live="polite"></div>
-        </div>
-
-        <div class="calculator-workspace" id="centrifugalWorkspace" hidden>
-          <div class="workspace-title"><div><div class="eyebrow">HYDRAULIC MACHINERY</div><h2>Centrifugal pump performance</h2><p>Calculate water power, overall efficiency, metric specific speed and impeller velocity parameters.</p></div><span class="level-label">V2 MODULE</span></div>
-          <div class="input-grid">
-            <label class="field"><span>Discharge <b>Q</b></span><div class="input-unit"><input id="centQ" type="number" min="0" step="any" value="20"><select id="centQUnit"><option value="ls">L/s</option><option value="m3s">m³/s</option><option value="m3h">m³/h</option></select></div></label>
-            <label class="field"><span>Manometric head <b>H</b></span><div class="input-unit"><input id="centH" type="number" min="0" step="any" value="30"><select id="centHUnit"><option value="m">m</option><option value="ft">ft</option></select></div></label>
-            <label class="field"><span>Pump speed <b>N</b></span><div class="input-unit"><input id="centN" type="number" min="0" step="any" value="1450"><span class="unit-static">rpm</span></div></label>
-            <label class="field"><span>Impeller diameter <b>D</b></span><div class="input-unit"><input id="centD" type="number" min="0" step="any" value="250"><select id="centDUnit"><option value="mm">mm</option><option value="m">m</option></select></div></label>
-            <label class="field"><span>Shaft input power <b>P<sub>in</sub></b></span><div class="input-unit"><input id="centP" type="number" min="0" step="any" value="10"><select id="centPUnit"><option value="kw">kW</option><option value="w">W</option></select></div></label>
-            <label class="field"><span>Fluid density <b>ρ</b></span><div class="input-unit"><input id="centRho" type="number" min="0" step="any" value="1000"><span class="unit-static">kg/m³</span></div></label>
-            <label class="field"><span>Gravitational acceleration <b>g</b></span><div class="input-unit"><input id="centG" type="number" min="0" step="any" value="9.81"><span class="unit-static">m/s²</span></div></label>
-          </div>
-          <div class="form-actions"><button class="button button-primary" id="solveCentrifugal">Calculate performance <span>→</span></button><button class="button button-quiet" id="resetCentrifugal">Reset values</button></div>
-          <div id="centrifugalError" class="error-message" role="alert" hidden></div>
-          <div id="centrifugalResults" class="results-panel" hidden aria-live="polite"></div>
         </div>
       </section>
 
@@ -158,8 +143,6 @@
         <div class="page-heading"><div class="eyebrow">ENGINEERING REFERENCE</div><h1>Formula library</h1><p class="lead">A concise reference for the first implemented engineering calculator.</p></div>
         <div class="formula-card"><div class="formula-head"><span>FLUID MECHANICS · RECIPROCATING PUMP</span><span class="formula-level">SI UNITS</span></div><h2>Theoretical discharge</h2><div class="equation">Q<sub>th</sub> = <span>A L N</span><small>60</small></div><p>For a single-acting pump, where A is piston area (m²), L is stroke length (m) and N is speed (rpm).</p><div class="equation secondary-equation">A = πD² / 4</div><hr><h3>Double-acting pump</h3><div class="equation secondary-equation">Q<sub>th</sub> = (2A − a) L N / 60</div><p>Here a is piston-rod cross-sectional area. If rod diameter is not supplied, the simplified approximation 2ALN/60 may be used and must be labelled as such.</p></div>
         <div class="formula-card"><div class="formula-head"><span>PUMP PERFORMANCE</span><span class="formula-level">SI UNITS</span></div><h2>Volumetric efficiency</h2><div class="equation">η<sub>v</sub> = <span>Q<sub>actual</sub></span><small>Q<sub>th</sub></small> × 100%</div><h3>Water power</h3><div class="equation secondary-equation">P<sub>w</sub> = ρ g Q<sub>actual</sub> H</div><h3>Overall efficiency</h3><div class="equation secondary-equation">η<sub>o</sub> = (P<sub>w</sub> / P<sub>in</sub>) × 100%</div><p>Input power must be the shaft power supplied to the pump for this overall-efficiency calculation.</p></div>
-
-        <div class="formula-card"><div class="formula-head"><span>FLUID MECHANICS · CENTRIFUGAL PUMP</span><span class="formula-level">SI UNITS</span></div><h2>Water power</h2><div class="equation">P<sub>w</sub> = ρ g Q H</div><p>Q is the operating discharge (m³/s), H is manometric head (m), ρ is fluid density (kg/m³) and g is gravitational acceleration (m/s²).</p><h3>Overall efficiency</h3><div class="equation secondary-equation">η<sub>o</sub> = (P<sub>w</sub> / P<sub>in</sub>) × 100%</div><h3>Impeller tip speed</h3><div class="equation secondary-equation">u = π D N / 60</div><p>D is impeller diameter in metres and N is rotational speed in rpm.</p><h3>Metric specific speed</h3><div class="equation secondary-equation">N<sub>s</sub> = N √Q / H<sup>3/4</sup></div><p>This convention uses N in rpm, Q in m³/s and H in metres. Specific-speed conventions vary; compare values only when the same convention is used.</p><h3>Dimensionless coefficients</h3><div class="equation secondary-equation">ψ = gH / u²</div><div class="equation secondary-equation">φ = Q / (nD³)</div><p>Here n is rotational speed in revolutions per second. These coefficients are useful for comparing dynamically similar operating points when definitions and units are consistent.</p></div>
       </section>
 
       <section class="view" id="view-about">
@@ -173,15 +156,6 @@
   </div>
   <div class="mobile-overlay" id="mobileOverlay"></div>
   <script src="calculations.js"></script>
-  <script src="app.js"></script><script id="mc-selector-controller">(function(){"use strict";
-var courses=[["fluid","Fluid Mechanics",[["reciprocating-pump","Reciprocating pump","Discharge, slip and efficiencies",1],["centrifugal-pump","Centrifugal pump","Water power, efficiency and speed parameters",1],["hydraulic-turbines","Hydraulic turbines","Impulse and reaction turbine calculations"],["pipe-flow","Pipe flow and losses","Continuity, friction and minor losses"],["bernoulli","Bernoulli equation","Energy equation and applications"],["flow-measurement","Flow measurement","Venturimeter, orifice meter and pitot tube"],["dimensional-analysis","Dimensional analysis","Buckingham π theorem and similitude"]]],["thermo","Thermodynamics",[["first-law","First law of thermodynamics","Closed and open system energy balances"],["second-law","Second law and entropy","Entropy changes and cycle analysis"],["gas-processes","Ideal-gas processes","Isothermal, adiabatic, polytropic processes"],["otto-diesel","Air-standard cycles","Otto, Diesel and Dual cycles"],["rankine","Rankine cycle","Steam power cycle performance"]]],["som","Strength of Materials",[["stress-strain","Stress and strain","Axial loading and deformation"],["sfd-bmd","Shear force and bending moment","Beam reactions, SFD and BMD"],["bending","Bending stresses","Flexure formula and section properties"],["torsion","Torsion of shafts","Shear stress and angle of twist"],["columns","Columns and buckling","Euler and Rankine formulae"]]],["tom","Theory of Machines",[["kinematics","Mechanism kinematics","Velocity and acceleration analysis"],["gears","Gear trains","Simple, compound and epicyclic gear trains"],["flywheel","Flywheel","Coefficient of fluctuation and energy"],["governors","Governors","Porter and Proell governor calculations"],["vibrations","Mechanical vibrations","Natural frequency and damping"]]],["heat","Heat Transfer",[["conduction","Heat conduction","Plane, cylindrical and composite walls"],["convection","Convection","Heat transfer coefficients and correlations"],["radiation","Thermal radiation","Radiative heat exchange"],["heat-exchangers","Heat exchangers","LMTD and effectiveness-NTU"]]],["design","Machine Design",[["failure-theories","Failure theories","Principal stresses and design criteria"],["shafts","Shaft design","Strength and rigidity design"],["keys-couplings","Keys and couplings","Torque transmission and sizing"],["bearings","Bearings","Rolling contact bearing life"],["springs","Springs","Helical spring stresses and deflection"]]],["manufacturing","Manufacturing Technology",[["machining","Machining calculations","Cutting speed, feed, time and MRR"],["casting","Casting","Solidification and riser design"],["welding","Welding","Weld strength and joint calculations"],["forming","Metal forming","Rolling, forging and extrusion"]]],["rac","Refrigeration and Air Conditioning",[["vcrs","Vapour compression system","COP, refrigerating effect and power"],["psychrometry","Psychrometry","Moist-air properties and processes"],["cooling-load","Cooling load","Sensible and latent heat loads"]]],["automobile","Automobile Engineering",[["engine-performance","IC engine performance","Brake power, indicated power and efficiencies"],["vehicle-dynamics","Vehicle dynamics","Tractive effort, power and gradeability"],["transmission","Transmission systems","Gear ratios and driveline calculations"]]],["power","Power Plant Engineering",[["boiler","Boiler performance","Equivalent evaporation and efficiency"],["steam-plant","Steam power plant","Plant heat rate and overall efficiency"],["gas-turbine","Gas turbine plants","Compressor and turbine work"]]],["metrology","Metrology and Measurements",[["limits-fits","Limits, fits and tolerances","Allowance and tolerance calculations"],["measurement-errors","Measurement and errors","Uncertainty and error propagation"]]],["materials","Engineering Materials",[["material-properties","Material properties","Density, hardness and mechanical properties"],["composites","Composite materials","Rule of mixtures calculations"]]]],$=function(id){return document.getElementById(id);},selectedCourse=null,implemented={"reciprocating-pump":true,"centrifugal-pump":true},courseBox=$("mcCourseScroll"),topicBox=$("mcTopicScroll");
-function el(tag,cls,txt){var n=document.createElement(tag);n.className=cls||"";if(txt!==undefined)n.textContent=txt;return n;}
-function hideCalc(){$("pumpWorkspace").hidden=true;$("centrifugalWorkspace").hidden=true;$("moduleNotice").hidden=true;}
-function renderCourses(){courseBox.replaceChildren();courses.forEach(function(c){var b=el("button","mc-selector-item mc-course-item");b.type="button";b.dataset.course=c[0];b.appendChild(el("span","mc-item-name",c[1]));b.appendChild(el("span","mc-item-count",c[2].length+" topics"));b.setAttribute("aria-selected",String(c[0]===selectedCourse));if(c[0]===selectedCourse)b.classList.add("is-selected");courseBox.appendChild(b);});}
-function renderTopics(){topicBox.replaceChildren();hideCalc();$("mcSelectionMessage").hidden=true;var c=courses.find(function(x){return x[0]===selectedCourse;});if(!c){$("mcTopicHeading").textContent="Topics";$("mcTopicHelp").textContent="Select a course to see its topics";topicBox.appendChild(el("p","mc-selector-empty","Topics will appear here."));return;}$("mcTopicHeading").textContent=c[1];$("mcTopicHelp").textContent="Choose a topic to open its calculator";c[2].forEach(function(t){var b=el("button","mc-selector-item mc-topic-item");b.type="button";b.dataset.topic=t[0];var copy=el("span","mc-topic-copy");copy.appendChild(el("span","mc-item-name",t[1]));copy.appendChild(el("span","mc-item-description",t[2]));b.appendChild(copy);b.appendChild(el("span","mc-item-status",implemented[t[0]]?"Ready":"Planned"));topicBox.appendChild(b);});}
-courseBox.addEventListener("click",function(e){var b=e.target.closest("button[data-course]");if(!b)return;selectedCourse=b.dataset.course;renderCourses();renderTopics();});
-topicBox.addEventListener("click",function(e){var b=e.target.closest("button[data-topic]");if(!b)return;topicBox.querySelectorAll(".mc-topic-item").forEach(function(x){x.classList.toggle("is-selected",x===b);});hideCalc();if(implemented[b.dataset.topic]){var p=b.dataset.topic==="centrifugal-pump"?$("centrifugalWorkspace"):$("pumpWorkspace");p.hidden=false;p.scrollIntoView({behavior:"smooth",block:"start"});}else{$("mcSelectionMessage").textContent=b.querySelector(".mc-item-name").textContent+" calculator is not implemented yet.";$("mcSelectionMessage").hidden=false;}});
-renderCourses();renderTopics();
-})();</script>
+  <script src="app.js"></script>
 </body>
 </html>
