@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#101827">
+  <meta name="description" content="MECHCALC — free Mechanical Engineering calculators, GATE-oriented solutions and engineering references.">
+  <title>MECHCALC | Mechanical Engineering Calculator</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#home" aria-label="MECHCALC home">
+        <span class="brand-mark">M<span>+</span></span>
+        <span class="brand-copy"><strong>MECHCALC</strong><small>Engineering workspace</small></span>
+      </a>
+      <div class="sidebar-label">WORKSPACE</div>
+      <nav class="main-nav" aria-label="Main navigation">
+        <button class="nav-item active" data-view="home"><span class="nav-icon">⌂</span> Overview</button>
+        <button class="nav-item" data-view="calculators"><span class="nav-icon">▦</span> Calculators <span class="nav-count">01</span></button>
+        <button class="nav-item" data-view="scientific"><span class="nav-icon">∑</span> Scientific calculator</button>
+        <button class="nav-item" data-view="converter"><span class="nav-icon">⇄</span> Unit converter</button>
+        <button class="nav-item" data-view="ask"><span class="nav-icon">✳</span> Ask MECHCALC <span class="nav-new">NEW</span></button>
+      </nav>
+      <div class="sidebar-label library-label">REFERENCE</div>
+      <nav class="main-nav" aria-label="Reference navigation">
+        <button class="nav-item" data-view="formulas"><span class="nav-icon">▤</span> Formula library</button>
+        <button class="nav-item" data-view="about"><span class="nav-icon">ⓘ</span> About & limitations</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="free-card"><span class="free-dot"></span><div><strong>Free core tools</strong><small>No account required</small></div></div>
+        <div class="sidebar-foot">MECHCALC <span>v0.1.0</span></div>
+      </div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <button class="icon-button menu-toggle" id="menuToggle" aria-label="Open navigation">☰</button>
+        <div class="breadcrumb"><span>Workspace</span><b>/</b><strong id="pageCrumb">Overview</strong></div>
+        <div class="topbar-right"><span class="status-indicator"></span><span>Local calculation mode</span><button class="topbar-avatar" aria-label="No account required">M</button></div>
+      </header>
+
+      <section class="view active" id="view-home">
+        <div class="welcome-row">
+          <div><div class="eyebrow">MECHANICAL ENGINEERING • GATE • DESIGN</div><h1>Engineering, <span>solved.</span></h1><p class="lead">A practical workspace for engineering calculations, exam preparation and technical problem solving.</p></div>
+          <div class="welcome-stamp"><span>ME</span><small>ENGINEERING<br>TOOLS</small></div>
+        </div>
+        <div class="hero-panel">
+          <div class="hero-copy"><div class="hero-kicker"><span class="spark">✳</span> YOUR ENGINEERING WORKSPACE</div><h2>From given data<br>to a <em>verified solution.</em></h2><p>Choose a calculator, enter known values and follow the working step by step. No sign-up. No API key.</p><button class="button button-light" data-go="calculators">Explore calculators <span>→</span></button></div>
+          <div class="hero-art" aria-hidden="true"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="gear gear-one">⚙</div><div class="gear gear-two">⚙</div><div class="hero-equation">Q = <span>ALN</span><small>60</small></div><div class="hero-axis"></div></div>
+        </div>
+        <div class="section-heading"><div><div class="eyebrow">GET STARTED</div><h2>Choose your tool</h2></div><span class="section-note">More engineering modules are being added progressively.</span></div>
+        <div class="tool-grid">
+          <button class="tool-card featured-tool" data-go="calculators"><span class="tool-symbol blue-symbol">◈</span><span class="tool-tag">ENGINEERING</span><strong>Engineering calculators</strong><small>Start with reciprocating pump performance and efficiencies.</small><span class="tool-link">Open calculators ↗</span></button>
+          <button class="tool-card" data-go="scientific"><span class="tool-symbol purple-symbol">∑</span><span class="tool-tag">MATHEMATICS</span><strong>Scientific calculator</strong><small>Trigonometry, logarithms, powers and scientific functions.</small><span class="tool-link">Open calculator ↗</span></button>
+          <button class="tool-card" data-go="converter"><span class="tool-symbol green-symbol">⇄</span><span class="tool-tag">UNITS</span><strong>Unit converter</strong><small>Convert common mechanical engineering quantities.</small><span class="tool-link">Convert units ↗</span></button>
+          <button class="tool-card" data-go="ask"><span class="tool-symbol amber-symbol">✳</span><span class="tool-tag">QUESTION SOLVER</span><strong>Ask MECHCALC</strong><small>Submit a question as text or attach an image or PDF.</small><span class="tool-link">Open question solver ↗</span></button>
+        </div>
+        <div class="bottom-note"><span class="note-icon">✓</span><div><strong>Transparent calculations</strong><p>Every available calculator shows its equations, assumptions, units and intermediate results. Results are not a substitute for independent verification in safety-critical design.</p></div></div>
+      </section>
+
+      <section class="view" id="view-calculators">
+        <div class="page-heading"><div class="eyebrow">ENGINEERING TOOLBOX</div><h1>Calculators</h1><p class="lead">Select a calculation to enter known values and generate a worked solution.</p></div>
+        <div class="filter-row"><span class="filter-chip selected">All modules</span><span class="filter-chip">Fluid mechanics</span><span class="filter-chip">Hydraulic machinery</span><span class="coming-label">More subjects planned</span></div>
+        <div class="calculator-layout">
+          <button class="calc-list-card selected" data-calc="reciprocating-pump"><span class="calc-card-icon">◉</span><span><small>FLUID MECHANICS · HYDRAULIC MACHINERY</small><strong>Reciprocating pump</strong><em>Discharge, slip, volumetric and overall efficiency</em></span><span class="calc-arrow">↗</span></button>
+          <div class="planned-card"><span>＋</span><div><strong>Centrifugal pump</strong><small>Planned module</small></div></div>
+          <div class="planned-card"><span>＋</span><div><strong>Hydraulic turbines</strong><small>Planned module</small></div></div>
+          <div class="planned-card"><span>＋</span><div><strong>Pipe flow and losses</strong><small>Planned module</small></div></div>
+        </div>
+        <div class="calculator-workspace" id="pumpWorkspace">
+          <div class="workspace-title"><div><div class="eyebrow">HYDRAULIC MACHINERY</div><h2>Reciprocating pump performance</h2><p>Calculate theoretical discharge, slip, volumetric efficiency and overall efficiency.</p></div><span class="level-label">BASIC · ADVANCED</span></div>
+          <div class="mode-row"><label for="pumpMode">Pump configuration</label><select id="pumpMode"><option value="single">Single-acting</option><option value="double">Double-acting (neglecting rod-side details unless supplied)</option></select></div>
+          <div class="input-grid">
+            <label class="field"><span>Piston diameter <b>D</b></span><div class="input-unit"><input id="pumpD" type="number" min="0" step="any" value="150"><select id="pumpDUnit"><option value="mm">mm</option><option value="m">m</option></select></div></label>
+            <label class="field"><span>Stroke length <b>L</b></span><div class="input-unit"><input id="pumpL" type="number" min="0" step="any" value="300"><select id="pumpLUnit"><option value="mm">mm</option><option value="m">m</option></select></div></label>
+            <label class="field"><span>Speed <b>N</b></span><div class="input-unit"><input id="pumpN" type="number" min="0" step="any" value="60"><span class="unit-static">rpm</span></div></label>
+            <label class="field"><span>Actual discharge <b>Q</b></span><div class="input-unit"><input id="pumpQ" type="number" min="0" step="any" value="4"><select id="pumpQUnit"><option value="ls">L/s</option><option value="m3s">m³/s</option><option value="m3h">m³/h</option></select></div></label>
+            <label class="field"><span>Total head <b>H</b></span><div class="input-unit"><input id="pumpH" type="number" min="0" step="any" value="20"><select id="pumpHUnit"><option value="m">m</option><option value="ft">ft</option></select></div></label>
+            <label class="field"><span>Shaft input power <b>P<sub>in</sub></b></span><div class="input-unit"><input id="pumpP" type="number" min="0" step="any" value="1.5"><select id="pumpPUnit"><option value="kw">kW</option><option value="w">W</option></select></div></label>
+            <label class="field"><span>Fluid density <b>ρ</b></span><div class="input-unit"><input id="pumpRho" type="number" min="0" step="any" value="1000"><span class="unit-static">kg/m³</span></div></label>
+            <label class="field"><span>Gravitational acceleration <b>g</b></span><div class="input-unit"><input id="pumpG" type="number" min="0" step="any" value="9.81"><span class="unit-static">m/s²</span></div></label>
+            <label class="field rod-field" id="rodField" hidden><span>Piston rod diameter <b>d</b> (optional)</span><div class="input-unit"><input id="pumpRod" type="number" min="0" step="any" value="0"><select id="pumpRodUnit"><option value="mm">mm</option><option value="m">m</option></select></div></label>
+          </div>
+          <div class="form-actions"><button class="button button-primary" id="solvePump">Calculate performance <span>→</span></button><button class="button button-quiet" id="resetPump">Reset values</button></div>
+          <div id="pumpError" class="error-message" role="alert" hidden></div>
+          <div id="pumpResults" class="results-panel" hidden aria-live="polite"></div>
+        </div>
+      </section>
+
+      <section class="view" id="view-scientific">
+        <div class="page-heading"><div class="eyebrow">MATHEMATICAL TOOLBOX</div><h1>Scientific calculator</h1><p class="lead">A browser-based calculator for common engineering and mathematical operations.</p></div>
+        <div class="scientific-layout">
+          <div class="calculator-shell">
+            <div class="calc-screen"><div class="calc-mode-row"><span id="angleModeLabel">DEG</span><span>MECHCALC SCIENTIFIC</span></div><div id="calcExpression" class="calc-expression">0</div><div id="calcResult" class="calc-result">0</div></div>
+            <div class="calc-toolbar"><button id="angleMode" class="small-toggle">DEG</button><button id="memoryClear" class="small-toggle">MC</button><button id="memoryRecall" class="small-toggle">MR</button><button id="memoryAdd" class="small-toggle">M+</button><button id="calcBack" class="small-toggle">⌫</button></div>
+            <div class="keypad" id="keypad">
+              <button data-key="(" class="key function-key">(</button><button data-key=")" class="key function-key">)</button><button data-key="pi" class="key function-key">π</button><button data-key="e" class="key function-key">e</button><button data-key="AC" class="key danger-key">AC</button>
+              <button data-key="sin(" class="key function-key">sin</button><button data-key="cos(" class="key function-key">cos</button><button data-key="tan(" class="key function-key">tan</button><button data-key="sqrt(" class="key function-key">√</button><button data-key="/" class="key operator-key">÷</button>
+              <button data-key="asin(" class="key function-key">sin⁻¹</button><button data-key="acos(" class="key function-key">cos⁻¹</button><button data-key="atan(" class="key function-key">tan⁻¹</button><button data-key="^2" class="key function-key">x²</button><button data-key="*" class="key operator-key">×</button>
+              <button data-key="7" class="key">7</button><button data-key="8" class="key">8</button><button data-key="9" class="key">9</button><button data-key="log(" class="key function-key">log</button><button data-key="-" class="key operator-key">−</button>
+              <button data-key="4" class="key">4</button><button data-key="5" class="key">5</button><button data-key="6" class="key">6</button><button data-key="ln(" class="key function-key">ln</button><button data-key="+" class="key operator-key">+</button>
+              <button data-key="1" class="key">1</button><button data-key="2" class="key">2</button><button data-key="3" class="key">3</button><button data-key="!" class="key function-key">x!</button><button data-key="=" class="key equals-key">=</button>
+              <button data-key="0" class="key zero-key">0</button><button data-key="." class="key">.</button><button data-key="ans" class="key function-key">Ans</button><button data-key="^" class="key function-key">xʸ</button><button data-key="%" class="key function-key">%</button>
+            </div>
+            <p class="calc-hint">Keyboard supported · Use ^ for powers · Trigonometry follows DEG/RAD mode.</p>
+          </div>
+          <aside class="calculator-help"><div class="eyebrow">SUPPORTED FUNCTIONS</div><h3>Calculation reference</h3><ul><li>Basic arithmetic and brackets</li><li>sin, cos, tan and inverse functions</li><li>Square root and powers</li><li>Logarithm (base 10) and natural log</li><li>Factorial, π, e and percentage</li></ul><div class="mini-callout">This is a general-purpose scientific calculator. It is not a symbolic algebra system.</div></aside>
+        </div>
+      </section>
+
+      <section class="view" id="view-converter">
+        <div class="page-heading"><div class="eyebrow">ENGINEERING UTILITIES</div><h1>Unit converter</h1><p class="lead">Convert common SI and engineering units with the conversion factor shown.</p></div>
+        <div class="converter-panel">
+          <label class="field category-field"><span>Quantity</span><select id="unitCategory"><option value="length">Length</option><option value="area">Area</option><option value="volume">Volume</option><option value="mass">Mass</option><option value="force">Force</option><option value="pressure">Pressure</option><option value="energy">Energy</option><option value="power">Power</option><option value="speed">Speed</option><option value="flow">Volumetric flow rate</option><option value="temperature">Temperature</option></select></label>
+          <div class="conversion-grid">
+            <label class="field"><span>From</span><div class="input-unit"><input id="unitValue" type="number" step="any" value="1"><select id="unitFrom"></select></div></label>
+            <div class="swap-cell"><button id="swapUnits" class="swap-button" aria-label="Swap units">⇄</button></div>
+            <label class="field"><span>To</span><div class="input-unit result-input"><output id="unitOutput">1000</output><select id="unitTo"></select></div></label>
+          </div>
+          <div class="conversion-foot"><span id="conversionFormula">1 m = 1000 mm</span><button id="copyConversion" class="button button-quiet">Copy result</button></div>
+        </div>
+        <div class="reference-strip"><strong>Unit discipline</strong><p>Calculators internally convert inputs to SI units before applying engineering equations. Always check the displayed units and assumptions.</p></div>
+      </section>
+
+      <section class="view" id="view-ask">
+        <div class="page-heading"><div class="eyebrow">QUESTION INTAKE</div><h1>Ask MECHCALC</h1><p class="lead">Submit an engineering question as text or attach a question image or PDF.</p></div>
+        <div class="ask-layout">
+          <div class="ask-main">
+            <label class="field"><span>Paste your question</span><textarea id="questionText" rows="8" placeholder="Example: A single-acting reciprocating pump has a piston diameter of 150 mm, stroke length of 300 mm and runs at 60 rpm. Calculate its theoretical discharge..."></textarea></label>
+            <div class="upload-zone" id="uploadZone"><input id="questionFile" type="file" accept="image/*,.pdf,application/pdf" multiple hidden><div class="upload-icon">↑</div><strong>Drop a question image or PDF here</strong><small>or <button id="chooseQuestionFile" class="inline-link" type="button">browse files</button> · Images and PDF documents</small><div id="fileList" class="file-list"></div></div>
+            <div class="form-actions"><button class="button button-primary" id="analyzeQuestion">Prepare question <span>→</span></button><button class="button button-quiet" id="clearQuestion">Clear</button></div>
+            <div id="questionStatus" class="question-status" hidden aria-live="polite"></div>
+          </div>
+          <aside class="ask-side"><div class="eyebrow">CURRENT CAPABILITY</div><h3>Question intake preview</h3><p>Text entry and file selection are available in this first release. Automated AI interpretation of diagrams, handwriting and PDFs is a planned integration and is not yet active.</p><div class="mini-callout">Your files are not uploaded to a server by this version. File previews and text remain in this browser session.</div><button class="text-button" data-go="calculators">Open engineering calculators ↗</button></aside>
+        </div>
+      </section>
+
+      <section class="view" id="view-formulas">
+        <div class="page-heading"><div class="eyebrow">ENGINEERING REFERENCE</div><h1>Formula library</h1><p class="lead">A concise reference for the first implemented engineering calculator.</p></div>
+        <div class="formula-card"><div class="formula-head"><span>FLUID MECHANICS · RECIPROCATING PUMP</span><span class="formula-level">SI UNITS</span></div><h2>Theoretical discharge</h2><div class="equation">Q<sub>th</sub> = <span>A L N</span><small>60</small></div><p>For a single-acting pump, where A is piston area (m²), L is stroke length (m) and N is speed (rpm).</p><div class="equation secondary-equation">A = πD² / 4</div><hr><h3>Double-acting pump</h3><div class="equation secondary-equation">Q<sub>th</sub> = (2A − a) L N / 60</div><p>Here a is piston-rod cross-sectional area. If rod diameter is not supplied, the simplified approximation 2ALN/60 may be used and must be labelled as such.</p></div>
+        <div class="formula-card"><div class="formula-head"><span>PUMP PERFORMANCE</span><span class="formula-level">SI UNITS</span></div><h2>Volumetric efficiency</h2><div class="equation">η<sub>v</sub> = <span>Q<sub>actual</sub></span><small>Q<sub>th</sub></small> × 100%</div><h3>Water power</h3><div class="equation secondary-equation">P<sub>w</sub> = ρ g Q<sub>actual</sub> H</div><h3>Overall efficiency</h3><div class="equation secondary-equation">η<sub>o</sub> = (P<sub>w</sub> / P<sub>in</sub>) × 100%</div><p>Input power must be the shaft power supplied to the pump for this overall-efficiency calculation.</p></div>
+      </section>
+
+      <section class="view" id="view-about">
+        <div class="page-heading"><div class="eyebrow">PROJECT NOTES</div><h1>About MECHCALC</h1><p class="lead">A free-first, browser-based Mechanical Engineering calculation platform.</p></div>
+        <div class="about-grid"><div class="formula-card"><h2>Design principles</h2><ul><li>Transparent equations and unit handling.</li><li>Deterministic calculations rather than AI-generated arithmetic.</li><li>No mandatory account for core tools.</li><li>Progressive coverage of GATE Mechanical Engineering subjects.</li><li>Local-first operation wherever practical.</li></ul></div><div class="formula-card"><h2>Important limitations</h2><ul><li>This is an early release with one engineering calculator.</li><li>Professional design checks, code compliance and safety factors are not yet implemented.</li><li>AI question interpretation and image/PDF extraction are not active yet.</li><li>Validate all results independently before using them in real equipment design or safety-critical work.</li></ul></div></div>
+        <div class="bottom-note"><span class="note-icon">i</span><div><strong>Version 0.1.0</strong><p>Initial working foundation. The next development steps are expanding the engineering library, adding automated calculation tests and implementing question recognition.</p></div></div>
+      </section>
+
+      <footer class="app-footer"><span>MECHCALC · Built for engineering problem solving</span><span>Core calculations run locally in your browser.</span></footer>
+    </main>
+  </div>
+  <div class="mobile-overlay" id="mobileOverlay"></div>
+  <script src="calculations.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
