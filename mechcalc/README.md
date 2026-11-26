@@ -1,8 +1,8 @@
 # MECHCALC
 
-MECHCALC is a free-first, browser-based Mechanical Engineering calculation workspace. The initial release is designed for GATE-oriented learning and transparent numerical calculations.
+MECHCALC is a free-first, browser-based Mechanical Engineering calculation workspace. Version 0.2.0 extends the initial release and is designed for GATE-oriented learning and transparent numerical calculations.
 
-## Current release: 0.1.0
+## Current release: 0.2.0
 
 - Responsive dashboard for mobile, tablet and desktop browsers
 - Scientific calculator with a safe expression parser (no eval or dynamic Function execution)
@@ -12,6 +12,11 @@ MECHCALC is a free-first, browser-based Mechanical Engineering calculation works
   - SI unit normalization
   - Theoretical discharge, slip and volumetric efficiency
   - Water power and overall efficiency
+  - Step-by-step working, assumptions and plausibility warnings
+- Centrifugal pump calculator:
+  - SI-normalized flow rate, head, impeller diameter and shaft power
+  - Water power and overall efficiency
+  - Metric specific speed, impeller tip speed, head coefficient and flow coefficient
   - Step-by-step working, assumptions and plausibility warnings
 - Question intake screen for pasted text and image/PDF attachments (automated AI interpretation is not active in this release)
 - Built-in calculation self-tests in the browser console
@@ -27,6 +32,16 @@ Published under the existing Apps repository at:
 https://santhosham-lab.github.io/apps/mechcalc/
 
 The repository Pages workflow publishes the existing Fitracker at the site root and MECHCALC under /mechcalc/.
+
+## Centrifugal pump equations
+
+Water power: Pw = ρgQH
+
+Overall efficiency: ηo = (Pw / Pin) × 100%
+
+Impeller tip speed: u = πDN / 60
+
+Metric specific speed: Ns = N√Q / H^(3/4), using N in rpm, Q in m³/s and H in metres. Specific-speed conventions vary, so values should only be compared when the same convention is used.
 
 ## Reciprocating pump equations
 
@@ -60,7 +75,7 @@ This is an early educational and calculation tool, not a certified engineering p
 
 ## Roadmap
 
-1. Expand verified GATE Mechanical Engineering calculators by subject.
+1. Continue expanding verified GATE Mechanical Engineering calculators by subject (centrifugal pump is the first V2 addition).
 2. Add structured formula references and worked examples.
 3. Implement local OCR and question parsing for text, images and PDFs.
 4. Add optional BYOK AI integrations through a secure architecture.
