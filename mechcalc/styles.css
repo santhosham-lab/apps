@@ -210,3 +210,8 @@
  .course-option small,.topic-option small,.topic-status{font-size:9px}
  .browser-heading h2{font-size:16px}.browser-heading>span{font-size:10px}
 }
+/* Final selector visibility and mobile layout correction */
+#view-calculators .course-browser{display:grid!important;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr)!important;gap:10px!important}
+#view-calculators .course-panel,#view-calculators .topic-panel{display:flex!important;flex-direction:column!important;min-width:0!important;min-height:340px!important}
+#view-calculators .course-list,#view-calculators .topic-list{display:flex!important;flex-direction:column!important;flex:1 1 auto!important;height:290px!important;min-height:290px!important;max-height:290px!important;overflow-y:auto!important;overflow-x:hidden!important;-webkit-overflow-scrolling:touch!important}
+#view-calculators .course-option,#view-calculators .topic-option{display:flex!important;visibility:visible!important;opacity:1!important;cursor:pointer!important}
