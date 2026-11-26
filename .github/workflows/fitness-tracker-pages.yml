@@ -26,6 +26,8 @@ jobs:
           cp -R fitness-tracker/. _site/
           mkdir -p _site/mechcalc
           cp -R mechcalc/. _site/mechcalc/
+          mkdir -p _site/mechcalc-v2
+          cp -R mechcalc/. _site/mechcalc-v2/
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site
