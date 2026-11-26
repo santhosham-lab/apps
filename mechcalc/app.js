@@ -114,11 +114,10 @@
     }
     function term() {
       var value = unary();
-      while (peek() === "*" || peek() === "/" || peek() === "%") {
+      while (peek() === "*" || peek() === "/") {
         var op = take(), right = unary();
         if (op === "*") value *= right;
         else if (op === "/") value /= right;
-        else value %= right;
       }
       return value;
     }
@@ -134,7 +133,7 @@
     }
     function postfix() {
       var value = primary();
-      while (peek() === "!") { take(); if (value < 0 || value > 170 || Math.floor(value) !== value) throw new Error("Factorial requires an integer from 0 to 170."); var n = 1; for (var k = 2; k <= value; k++) n *= k; value = n; }
+      while (peek() === "!" || peek() === "%") { var suffix = take(); if (suffix === "%") value /= 100; else { if (value < 0 || value > 170 || Math.floor(value) !== value) throw new Error("Factorial requires an integer from 0 to 170."); var n = 1; for (var k = 2; k <= value; k++) n *= k; value = n; } }
       return value;
     }
     function primary() {
