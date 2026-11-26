@@ -132,7 +132,7 @@
       </section>
 
       <section class="view" id="view-ask">
-        <div class="page-heading"><div class="eyebrow">AI ENGINEERING SOLVER</div><h1>Ask MECHCALC</h1><p class="lead">Submit an engineering problem as text, an image or a PDF. Gemini reads the question and prepares a worked solution.</p></div>
+        <div class="page-heading"><div class="eyebrow">AI ENGINEERING SOLVER</div><h1>Ask MECHCALC</h1><p class="lead">Submit an engineering problem as text, an image or a PDF. The free no-key solver handles text and images. Gemini is an optional fallback for PDF questions or when the free service is unavailable.</p></div>
         <div class="ask-layout">
           <div class="ask-main">
             <div class="ai-setup-card">
@@ -150,7 +150,7 @@
             <div id="questionStatus" class="question-status" hidden aria-live="polite"></div>
             <section id="aiAnswerPanel" class="ai-answer-panel" hidden aria-live="polite"><div class="ai-answer-head"><div><div class="eyebrow">GENERATED SOLUTION</div><h3>MECHCALC working</h3></div><button id="copyAiAnswer" class="button button-quiet" type="button">Copy answer</button></div><pre id="aiAnswer" class="ai-answer"></pre><p class="ai-disclaimer">AI-generated engineering assistance. Verify equations, assumptions, units and numerical results independently before relying on the answer.</p></section>
           </div>
-          <aside class="ask-side"><div class="eyebrow">HOW IT WORKS</div><h3>Image and PDF question solving</h3><ol class="ai-steps"><li>Enter your own Gemini API key.</li><li>Paste a question or attach an image/PDF.</li><li>Gemini interprets the text, equations and diagrams.</li><li>MECHCALC requests a topic classification and step-by-step engineering solution.</li></ol><div class="mini-callout">MECHCALC does not collect payments or provide a shared paid AI account. Your provider account controls free quota, billing and usage limits. A ChatGPT subscription does not include API credits.</div><div class="ai-privacy-note"><strong>Privacy and key handling</strong><p>Your key is kept in page memory only and is cleared when the page is refreshed or closed. Attachments are sent directly from your browser to Google Gemini; they are not uploaded to a MECHCALC server.</p></div><button class="text-button" data-go="calculators">Open engineering calculators ↗</button></aside>
+          <aside class="ask-side"><div class="eyebrow">HOW IT WORKS</div><h3>Image and PDF question solving</h3><ol class="ai-steps"><li>Paste a question or attach an image.</li><li>MECHCALC tries the free anonymous AI service first.</li><li>The AI interprets equations, diagrams and given data.</li><li>MECHCALC prepares a topic classification and step-by-step engineering solution.</li><li>For PDFs or free-service outages, optionally connect your own Gemini API key.</li></ol><div class="mini-callout">MECHCALC does not collect payments or provide a shared paid AI account. Your provider account controls free quota, billing and usage limits. A ChatGPT subscription does not include API credits.</div><div class="ai-privacy-note"><strong>Privacy and key handling</strong><p>When Gemini is used, your key is kept in page memory only and is cleared when the page is refreshed or closed. Attachments are sent directly to the selected AI provider; they are not uploaded to a MECHCALC server.</p></div><button class="text-button" data-go="calculators">Open engineering calculators ↗</button></aside>
         </div>
       </section>
 
@@ -176,6 +176,6 @@
   <script src="calculator-registry.js?v=1"></script>
   <script src="course-calculators.js?v=batch-1"></script>
 <script src="course-browser.js?v=batch-1"></script>
-<script src="ai-solver.js?v=byok-1"></script>
+<script src="ai-solver.js?v=free-2"></script>
 </body>
 </html>
