@@ -4,11 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#101827">
-  <meta name="description" content="MECHCALC — free Mechanical Engineering calculators, GATE-oriented solutions and engineering references.">
+  <meta name="description" content="MECHCALC — comprehensive Mechanical Engineering calculators for BTech and MTech study, design and engineering practice.">
   <title>MECHCALC | Mechanical Engineering Calculator</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css?v=dded4dc-fix2">
+  <link rel="stylesheet" href="styles.css?v=curriculum-1">
 </head>
 <body>
   <div class="app-shell">
@@ -66,7 +66,7 @@
         <div class="page-heading"><div class="eyebrow">ENGINEERING TOOLBOX</div><h1>Calculators</h1><p class="lead">Select a calculation to enter known values and generate a worked solution.</p></div>
         <div class="course-topic-browser" aria-label="Course and topic selectors">
           <section class="selector-panel" aria-labelledby="courseSelectorTitle">
-            <div class="selector-heading"><div><span class="eyebrow">STEP 1</span><h2 id="courseSelectorTitle">Select course</h2></div><span class="selector-count">12 courses</span></div>
+            <div class="selector-heading"><div><span class="eyebrow">STEP 1</span><h2 id="courseSelectorTitle">Select course</h2></div><span class="selector-count" id="courseCount">32 courses</span></div>
             <div class="selector-list" id="courseSelector" role="listbox" aria-label="Engineering courses"><button type="button" class="selector-option" role="option" aria-selected="true" data-course="fluid-mechanics"><span class="selector-index">01</span><span class="selector-option-copy"><strong>Fluid Mechanics</strong></span></button><button type="button" class="selector-option" role="option" aria-selected="false" data-course="thermodynamics"><span class="selector-index">02</span><span class="selector-option-copy"><strong>Thermodynamics</strong></span></button><button type="button" class="selector-option" role="option" aria-selected="false" data-course="strength-of-materials"><span class="selector-index">03</span><span class="selector-option-copy"><strong>Strength of Materials</strong></span></button><button type="button" class="selector-option" role="option" aria-selected="false" data-course="theory-of-machines"><span class="selector-index">04</span><span class="selector-option-copy"><strong>Theory of Machines</strong></span></button><button type="button" class="selector-option" role="option" aria-selected="false" data-course="heat-transfer"><span class="selector-index">05</span><span class="selector-option-copy"><strong>Heat Transfer</strong></span></button><button type="button" class="selector-option" role="option" aria-selected="false" data-course="machine-design"><span class="selector-index">06</span><span class="selector-option-copy"><strong>Machine Design</strong></span></button><button type="button" class="selector-option" role="option" aria-selected="false" data-course="manufacturing"><span class="selector-index">07</span><span class="selector-option-copy"><strong>Manufacturing Technology</strong></span></button><button type="button" class="selector-option" role="option" aria-selected="false" data-course="refrigeration-ac"><span class="selector-index">08</span><span class="selector-option-copy"><strong>Refrigeration and Air Conditioning</strong></span></button><button type="button" class="selector-option" role="option" aria-selected="false" data-course="automobile"><span class="selector-index">09</span><span class="selector-option-copy"><strong>Automobile Engineering</strong></span></button><button type="button" class="selector-option" role="option" aria-selected="false" data-course="power-plant"><span class="selector-index">10</span><span class="selector-option-copy"><strong>Power Plant Engineering</strong></span></button><button type="button" class="selector-option" role="option" aria-selected="false" data-course="metrology"><span class="selector-index">11</span><span class="selector-option-copy"><strong>Metrology and Measurements</strong></span></button><button type="button" class="selector-option" role="option" aria-selected="false" data-course="engineering-materials"><span class="selector-index">12</span><span class="selector-option-copy"><strong>Engineering Materials</strong></span></button></div>
           </section>
           <section class="selector-panel" aria-labelledby="topicSelectorTitle">
@@ -161,6 +161,8 @@
   <div class="mobile-overlay" id="mobileOverlay"></div>
   <script src="calculations.js"></script>
   <script src="app.js"></script>
-  <script src="course-browser.js?v=dded4dc-fix2"></script>
+  <script src="curriculum.js?v=1"></script>
+  <script src="calculator-registry.js?v=1"></script>
+  <script src="course-browser.js?v=curriculum-1"></script>
 </body>
 </html>

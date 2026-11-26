@@ -27,3 +27,5 @@
 .calculator-workspace[hidden],.topic-status[hidden]{display:none!important}
 @media(max-width:760px){.course-topic-browser{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px}.selector-panel{padding:10px 8px}.selector-heading{align-items:flex-start;flex-direction:column;gap:4px}.selector-heading h2{font-size:12px}.selector-count{font-size:8px}.selector-list{height:260px}.selector-option{padding:8px 5px;gap:5px}.selector-option .selector-index{flex-basis:16px;width:16px;height:16px;font-size:7px}.selector-option strong{font-size:9px}.selector-option small{font-size:7px}.selector-option .topic-state{font-size:6px;padding:2px 3px}}
 @media(max-width:390px){.course-topic-browser{gap:6px}.selector-panel{padding:9px 6px}.selector-list{height:250px}.selector-option{padding:7px 4px}}
+
+.selector-group-label{padding:10px 7px 5px;color:#8995a7;font-size:8px;font-weight:850;letter-spacing:.8px;text-transform:uppercase;border-bottom:1px solid #edf0f4;margin:2px 0 5px}
