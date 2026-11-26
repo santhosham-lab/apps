@@ -134,11 +134,20 @@
     });
     check("Double-acting discharge with rod area", doubleResult.theoreticalDischarge,
       (2 * Math.PI * 0.15 * 0.15 / 4 - Math.PI * 0.03 * 0.03 / 4) * 0.3);
+    var centrifugal = solveCentrifugalPump({
+      flowRate: 20, flowUnit: "ls", head: 30, headUnit: "m",
+      speed: 1450, impellerDiameter: 250, diameterUnit: "mm",
+      inputPower: 10, powerUnit: "kw", density: 1000, gravity: 9.81
+    });
+    check("Centrifugal pump water power", centrifugal.waterPower, 1000 * 9.81 * 0.02 * 30);
+    check("Centrifugal pump overall efficiency", centrifugal.efficiency, 58.86);
+    check("Centrifugal pump impeller tip speed", centrifugal.tipSpeed, Math.PI * 0.25 * 1450 / 60);
     return tests;
   }
 
   global.MechCalcEngineering = {
-    solveReciprocatingPump: solveReciprocatingPump,\n    solveCentrifugalPump: solveCentrifugalPump,
+    solveReciprocatingPump: solveReciprocatingPump,
+    solveCentrifugalPump: solveCentrifugalPump,
     runSelfTests: runSelfTests,
     formatNumber: fmt
   };
