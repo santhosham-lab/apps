@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101827">
+<title>Daily Spend — Expense Tracker</title>
+<style>
+:root{color-scheme:dark;--bg:#0b1220;--panel:#121d2e;--panel2:#172438;--line:#26364d;--text:#edf3fb;--muted:#9aabc1;--accent:#79a9ff;--good:#55c69a;--warn:#f3bc62;--bad:#f07878}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(145deg,#101b2d,#0b1220 55%);color:var(--text);font:15px/1.5 Inter,system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}
+main{width:min(1050px,100%);margin:auto;padding:28px 18px 60px}.top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:22px}.eyebrow{color:var(--accent);font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}h1{font-size:clamp(26px,5vw,38px);line-height:1.1;margin:6px 0}.sub{color:var(--muted);margin:8px 0 0}.month-control{display:flex;gap:8px;align-items:center;background:var(--panel);border:1px solid var(--line);padding:7px;border-radius:12px}.month-control button{width:34px;height:34px;padding:0;font-size:19px}.month-control strong{min-width:110px;text-align:center}
+button,input{font:inherit}button{cursor:pointer;color:var(--text);background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:9px 13px}button:hover{border-color:var(--accent)}button.primary{background:var(--accent);color:#081322;border-color:var(--accent);font-weight:700}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0}.stat,.panel{background:rgba(18,29,46,.94);border:1px solid var(--line);border-radius:16px;padding:17px}.stat span{display:block;color:var(--muted);font-size:13px}.stat strong{display:block;font-size:clamp(21px,4vw,29px);margin-top:5px;letter-spacing:-.03em}.stat small{color:var(--muted)}
+.budget{margin-bottom:18px}.budget-head{display:flex;justify-content:space-between;gap:12px;align-items:center}.budget-head strong{font-size:14px}.track{height:10px;background:#26364d;border-radius:99px;overflow:hidden;margin:12px 0 8px}.fill{height:100%;width:0;background:var(--good);border-radius:99px;transition:width .2s}.fill.warn{background:var(--warn)}.fill.over{background:var(--bad)}.notice{padding:11px 13px;border-radius:10px;background:#1c2b3f;color:#c7d5e8;font-size:13px;margin-top:12px}.notice.warn{background:#392e1c;color:#ffd99b}.notice.bad{background:#3b2227;color:#ffc1c1}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,.85fr);gap:16px;align-items:start}.panel h2{font-size:18px;margin:0 0 15px}.fields{display:grid;gap:12px}.fields label{display:grid;gap:6px;color:var(--muted);font-size:13px}input{width:100%;background:#0c1625;color:var(--text);border:1px solid var(--line);border-radius:9px;padding:11px 12px;min-height:44px}input:focus{outline:2px solid #79a9ff66;border-color:var(--accent)}.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.form-actions{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:14px}.hint{font-size:12px;color:var(--muted);margin:12px 0 0}
+.tabs{display:flex;gap:8px;margin:0 0 13px}.tabs button{flex:1}.tabs button.active{background:#263b5a;border-color:var(--accent)}.list-head{display:flex;justify-content:space-between;align-items:center;margin:0 0 10px;color:var(--muted);font-size:13px}.day-group{border-top:1px solid var(--line);padding:12px 0}.day-title{display:flex;justify-content:space-between;gap:10px;font-weight:700;font-size:13px;margin-bottom:8px}.expense{display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;padding:9px 0}.expense+.expense{border-top:1px dashed #26364d}.expense-desc{overflow-wrap:anywhere}.expense time{display:block;color:var(--muted);font-size:11px}.amount{font-weight:700;white-space:nowrap}.delete{padding:4px 8px;color:#f5a5a5;background:transparent;border:0}.empty{color:var(--muted);text-align:center;padding:26px 10px;font-size:14px}.day-total{font-size:12px;color:var(--muted);font-weight:500}.foot{color:var(--muted);font-size:12px;margin:18px 2px 0}
+@media(max-width:720px){main{padding:22px 13px 40px}.top{display:block}.month-control{margin-top:16px;width:max-content}.stats{gap:8px}.stat{padding:13px}.layout{grid-template-columns:1fr}.stat strong{font-size:21px}}
+@media(max-width:390px){.stats{grid-template-columns:1fr 1fr}.stats .stat:last-child{grid-column:span 2}.form-row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main>
+<header class="top"><div><div class="eyebrow">Personal finance</div><h1>Daily Spend</h1><p class="sub">Track every expense. Stay within your ₹5,000 monthly limit.</p></div>
+<div class="month-control"><button id="prevMonth" aria-label="Previous month">‹</button><strong id="monthLabel"></strong><button id="nextMonth" aria-label="Next month">›</button></div></header>
+<section class="stats" aria-label="Monthly summary">
+<div class="stat"><span>Spent this month</span><strong id="spent">₹0</strong><small id="entryCount">0 entries</small></div>
+<div class="stat"><span>Budget remaining</span><strong id="remaining">₹5,000</strong><small>From ₹5,000 monthly limit</small></div>
+<div class="stat"><span>Average per day</span><strong id="average">₹0</strong><small>Based on days elapsed</small></div>
+</section>
+<section class="panel budget"><div class="budget-head"><strong>Monthly budget usage</strong><strong id="budgetPercent">0%</strong></div><div class="track"><div class="fill" id="budgetFill"></div></div><div class="budget-head"><small id="spentLabel">₹0 spent</small><small>₹5,000 limit</small></div><div class="notice" id="budgetNotice" role="status">You are within your monthly budget. Keep tracking your expenses.</div></section>
+<div class="layout">
+<section class="panel"><h2>Add an expense</h2><form id="expenseForm">
+<div class="fields"><label for="description">Description<input id="description" maxlength="100" placeholder="e.g. Groceries, fuel, coffee" required></label>
+<div class="form-row"><label for="amount">Amount (₹)<input id="amount" type="number" min="0.01" max="10000000" step="0.01" placeholder="0.00" required></label><label for="date">Date<input id="date" type="date" required></label></div></div>
+<div class="form-actions"><button type="reset">Clear</button><button class="primary" type="submit">Add expense</button></div><p class="hint">Your entries are saved in this browser on this device. No account or bank connection is used.</p>
+</form><div id="formNotice" class="notice" hidden></div></section>
+<section class="panel"><div class="tabs"><button class="active" id="dailyTab" type="button">Daily summary</button><button id="allTab" type="button">All expenses</button></div><div class="list-head"><span id="listTitle">Day-wise breakdown</span><span id="listTotal">₹0 total</span></div><div id="expenseList"><div class="empty">No expenses recorded for this month yet.</div></div></section>
+</div>
+<p class="foot">Amounts are in Indian rupees (INR). Data is stored locally in this browser using local storage. Clearing browser site data will remove these records. Export or back up your data regularly.</p>
+</main>
+<script>
+(() => {
+const LIMIT=5000, KEY='daily-spend-expenses-v1';
+const $=id=>document.getElementById(id);
+const today=()=>{const d=new Date();return [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-')};
+const money=n=>new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:2}).format(n);
+let expenses=[];try{expenses=JSON.parse(localStorage.getItem(KEY)||'[]');if(!Array.isArray(expenses))expenses=[]}catch{expenses=[]}
+let viewed=new Date();viewed.setDate(1);let showAll=false;
+const monthKey=d=>d.slice(0,7);
+const selectedMonth=()=>viewed.getFullYear()+'-'+String(viewed.getMonth()+1).padStart(2,'0');
+const monthExpenses=()=>expenses.filter(e=>monthKey(e.date)===selectedMonth()).sort((a,b)=>b.date.localeCompare(a.date)||b.createdAt-a.createdAt);
+const save=()=>localStorage.setItem(KEY,JSON.stringify(expenses));
+const safe=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const formatDate=s=>new Date(s+'T12:00:00').toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
+function render(){
+ const list=monthExpenses(),total=list.reduce((s,e)=>s+e.amount,0),remaining=LIMIT-total;
+ const now=new Date(),isCurrent=selectedMonth()===monthKey(today()),days=isCurrent?now.getDate():new Date(viewed.getFullYear(),viewed.getMonth()+1,0).getDate();
+ $('monthLabel').textContent=viewed.toLocaleDateString('en-IN',{month:'long',year:'numeric'});
+ $('spent').textContent=money(total);$('remaining').textContent=money(remaining);$('average').textContent=money(days?total/days:0);$('entryCount').textContent=list.length+' '+(list.length===1?'entry':'entries');
+ const pct=total/LIMIT*100;$('budgetPercent').textContent=Math.round(pct)+'%';$('budgetFill').style.width=Math.min(100,pct)+'%';$('budgetFill').className='fill'+(pct>=100?' over':pct>=75?' warn':'');
+ $('spentLabel').textContent=money(total)+' spent';
+ const note=$('budgetNotice');note.className='notice'+(pct>=100?' bad':pct>=75?' warn':'');
+ note.textContent=pct>=100?'Budget exceeded by '+money(total-LIMIT)+'. Avoid further non-essential spending this month.':pct>=90?'Warning: you have used '+Math.round(pct)+'% of your budget. Only '+money(remaining)+' remains.':pct>=75?'Heads up: you have used '+Math.round(pct)+'% of your budget. '+money(remaining)+' remains.':'You are within your monthly budget. '+money(remaining)+' is available.';
+ $('listTitle').textContent=showAll?'All expenses':'Day-wise breakdown';$('listTotal').textContent=money(total)+' total';
+ $('dailyTab').classList.toggle('active',!showAll);$('allTab').classList.toggle('active',showAll);
+ const groups={};list.forEach(e=>(groups[e.date]??=[]).push(e));
+ const dates=Object.keys(groups).sort((a,b)=>b.localeCompare(a));
+ if(!dates.length){$('expenseList').innerHTML='<div class="empty">No expenses recorded for this month yet.</div>';return}
+ $('expenseList').innerHTML=dates.map(date=>{
+ const items=groups[date],sum=items.reduce((s,e)=>s+e.amount,0);
+ return '<div class="day-group"><div class="day-title"><span>'+formatDate(date)+'</span><span class="day-total">Day total: '+money(sum)+'</span></div>'+items.map(e=>'<div class="expense"><div class="expense-desc">'+safe(e.description)+'<time>'+new Date(e.createdAt).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'})+'</time></div><div class="amount">'+money(e.amount)+'</div><button class="delete" type="button" data-delete="'+e.id+'" aria-label="Delete '+safe(e.description)+'">✕</button></div>').join('')+'</div>';
+ }).join('');
+}
+$('date').value=today();
+$('expenseForm').addEventListener('submit',ev=>{
+ ev.preventDefault();const description=$('description').value.trim(),amount=Number($('amount').value),date=$('date').value;
+ if(!description||!date||!Number.isFinite(amount)||amount<=0)return;
+ const item={id:crypto.randomUUID?crypto.randomUUID():String(Date.now())+Math.random(),description,amount:Math.round(amount*100)/100,date,createdAt:Date.now()};
+ expenses.push(item);save();viewed=new Date(date+'T12:00:00');viewed.setDate(1);showAll=false;
+ const monthTotal=monthExpenses().reduce((s,e)=>s+e.amount,0);const after=monthTotal>=LIMIT?'This entry takes you over the ₹5,000 monthly limit.':monthTotal>=LIMIT*.9?'You have now used '+Math.round(monthTotal/LIMIT*100)+'% of this month’s budget.':monthTotal>=LIMIT*.75?'You have now used '+Math.round(monthTotal/LIMIT*100)+'% of this month’s budget.':'Expense added.';
+ $('formNotice').hidden=false;$('formNotice').textContent=after;$('formNotice').className='notice'+(monthTotal>=LIMIT?' bad':monthTotal>=LIMIT*.75?' warn':'');
+ $('expenseForm').reset();$('date').value=today();render();
+});
+$('expenseList').addEventListener('click',ev=>{const b=ev.target.closest('[data-delete]');if(!b)return;expenses=expenses.filter(e=>e.id!==b.dataset.delete);save();render()});
+$('prevMonth').addEventListener('click',()=>{viewed.setMonth(viewed.getMonth()-1);render()});
+$('nextMonth').addEventListener('click',()=>{viewed.setMonth(viewed.getMonth()+1);render()});
+$('dailyTab').addEventListener('click',()=>{showAll=false;render()});$('allTab').addEventListener('click',()=>{showAll=true;render()});
+$('expenseForm').addEventListener('reset',()=>{setTimeout(()=>{$('date').value=today();$('formNotice').hidden=true},0)});
+render();
+})();
+</script>
+</body></html>
