@@ -22,6 +22,10 @@ button,input{font:inherit}button{cursor:pointer;color:var(--text);background:var
 <main>
 <header class="top"><div><div class="eyebrow">Personal finance</div><h1>Daily Spend</h1><p class="sub">Track every expense. Stay within your ₹5,000 monthly limit.</p></div>
 <div class="month-control"><button id="prevMonth" aria-label="Previous month">‹</button><strong id="monthLabel"></strong><button id="nextMonth" aria-label="Next month">›</button></div></header>
+<section class="panel" id="authPanel" style="margin:18px 0">
+<h2>Private account</h2><div class="form-row"><label for="authEmail">Email<input id="authEmail" type="email" autocomplete="email" placeholder="you@example.com"></label><label for="authPassword">Password<input id="authPassword" type="password" autocomplete="current-password" placeholder="At least 6 characters"></label></div>
+<div class="form-actions" id="authButtons"><button type="button" id="signUpBtn">Create account</button><button class="primary" type="button" id="signInBtn">Sign in</button></div><p class="hint" id="authHint">Create an account or sign in to save and sync expenses across your devices.</p><div id="authNotice" class="notice" hidden role="status"></div>
+</section><section class="panel" id="signedInPanel" style="margin:18px 0" hidden><div class="budget-head"><div><strong>Signed in</strong><div class="hint" id="signedInEmail"></div></div><button type="button" id="signOutBtn">Sign out</button></div></section>
 <section class="stats" aria-label="Monthly summary">
 <div class="stat"><span>Spent this month</span><strong id="spent">₹0</strong><small id="entryCount">0 entries</small></div>
 <div class="stat"><span>Budget remaining</span><strong id="remaining">₹5,000</strong><small>From ₹5,000 monthly limit</small></div>
@@ -32,26 +36,39 @@ button,input{font:inherit}button{cursor:pointer;color:var(--text);background:var
 <section class="panel"><h2>Add an expense</h2><form id="expenseForm">
 <div class="fields"><label for="description">Description<input id="description" maxlength="100" placeholder="e.g. Groceries, fuel, coffee" required></label>
 <div class="form-row"><label for="amount">Amount (₹)<input id="amount" type="number" min="0.01" max="10000000" step="0.01" placeholder="0.00" required></label><label for="date">Date<input id="date" type="date" required></label></div></div>
-<div class="form-actions"><button type="reset">Clear</button><button class="primary" type="submit">Add expense</button></div><p class="hint">Your entries are saved in this browser on this device. No account or bank connection is used.</p>
+<div class="form-actions"><button type="reset">Clear</button><button class="primary" type="submit">Add expense</button></div><p class="hint"><span id="entryHint">Sign in above to add expenses. Your records will sync across devices.</span></p>
 </form><div id="formNotice" class="notice" hidden></div></section>
 <section class="panel"><div class="tabs"><button class="active" id="dailyTab" type="button">Daily summary</button><button id="allTab" type="button">All expenses</button></div><div class="list-head"><span id="listTitle">Day-wise breakdown</span><span id="listTotal">₹0 total</span></div><div id="expenseList"><div class="empty">No expenses recorded for this month yet.</div></div></section>
 </div>
-<p class="foot">Amounts are in Indian rupees (INR). Data is stored locally in this browser using local storage. Clearing browser site data will remove these records. Export or back up your data regularly.</p>
+<p class="foot">Amounts are in Indian rupees (INR). Expenses are stored in your private Supabase account and synced across devices. Sign in with the same account on each device.</p>
 </main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 (() => {
 const LIMIT=5000, KEY='daily-spend-expenses-v1';
+const SUPABASE_URL='https://lvuclmbirvujumvdqeod.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY='sb_publishable_b05htRpkFCnskYuDXoeFCQ_atStetdi';
+const supabase=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
 const $=id=>document.getElementById(id);
 const today=()=>{const d=new Date();return [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-')};
 const money=n=>new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:2}).format(n);
-let expenses=[];try{expenses=JSON.parse(localStorage.getItem(KEY)||'[]');if(!Array.isArray(expenses))expenses=[]}catch{expenses=[]}
-let viewed=new Date();viewed.setDate(1);let showAll=false;
-const monthKey=d=>d.slice(0,7);
-const selectedMonth=()=>viewed.getFullYear()+'-'+String(viewed.getMonth()+1).padStart(2,'0');
+let expenses=[],user=null,viewed=new Date(),showAll=false,busy=false;
+viewed.setDate(1);
+const monthKey=d=>d.slice(0,7), selectedMonth=()=>viewed.getFullYear()+'-'+String(viewed.getMonth()+1).padStart(2,'0');
 const monthExpenses=()=>expenses.filter(e=>monthKey(e.date)===selectedMonth()).sort((a,b)=>b.date.localeCompare(a.date)||b.createdAt-a.createdAt);
-const save=()=>localStorage.setItem(KEY,JSON.stringify(expenses));
 const safe=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const formatDate=s=>new Date(s+'T12:00:00').toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
+const localExpenses=()=>{try{const x=JSON.parse(localStorage.getItem(KEY)||'[]');return Array.isArray(x)?x:[]}catch{return []}};
+function setStatus(message,isError=false){$('authNotice').hidden=!message;$('authNotice').textContent=message;$('authNotice').className='notice'+(isError?' bad':'')}
+function updateAuthUI(){
+ $('authPanel').hidden=!!user;
+ $('signedInPanel').hidden=!user;
+ $('signedInEmail').textContent=user?.email||'';
+ $('expenseForm').querySelectorAll('input,button').forEach(el=>el.disabled=!user||busy);
+ $('authButtons').querySelectorAll('button').forEach(el=>el.disabled=busy);
+ $('authHint').textContent=user?'':'Create an account or sign in to save and sync expenses across your devices.';
+ $('entryHint').textContent=user?'Expenses are saved securely to your private cloud account.':'Sign in above to add expenses. Your records will sync across devices.';
+}
 function render(){
  const list=monthExpenses(),total=list.reduce((s,e)=>s+e.amount,0),remaining=LIMIT-total;
  const now=new Date(),isCurrent=selectedMonth()===monthKey(today()),days=isCurrent?now.getDate():new Date(viewed.getFullYear(),viewed.getMonth()+1,0).getDate();
@@ -63,30 +80,81 @@ function render(){
  note.textContent=pct>=100?'Budget exceeded by '+money(total-LIMIT)+'. Avoid further non-essential spending this month.':pct>=90?'Warning: you have used '+Math.round(pct)+'% of your budget. Only '+money(remaining)+' remains.':pct>=75?'Heads up: you have used '+Math.round(pct)+'% of your budget. '+money(remaining)+' remains.':'You are within your monthly budget. '+money(remaining)+' is available.';
  $('listTitle').textContent=showAll?'All expenses':'Day-wise breakdown';$('listTotal').textContent=money(total)+' total';
  $('dailyTab').classList.toggle('active',!showAll);$('allTab').classList.toggle('active',showAll);
- const groups={};list.forEach(e=>(groups[e.date]??=[]).push(e));
- const dates=Object.keys(groups).sort((a,b)=>b.localeCompare(a));
+ const groups={};list.forEach(e=>(groups[e.date]??=[]).push(e));const dates=Object.keys(groups).sort((a,b)=>b.localeCompare(a));
  if(!dates.length){$('expenseList').innerHTML='<div class="empty">No expenses recorded for this month yet.</div>';return}
- $('expenseList').innerHTML=dates.map(date=>{
- const items=groups[date],sum=items.reduce((s,e)=>s+e.amount,0);
- return '<div class="day-group"><div class="day-title"><span>'+formatDate(date)+'</span><span class="day-total">Day total: '+money(sum)+'</span></div>'+items.map(e=>'<div class="expense"><div class="expense-desc">'+safe(e.description)+'<time>'+new Date(e.createdAt).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'})+'</time></div><div class="amount">'+money(e.amount)+'</div><button class="delete" type="button" data-delete="'+e.id+'" aria-label="Delete '+safe(e.description)+'">✕</button></div>').join('')+'</div>';
- }).join('');
+ $('expenseList').innerHTML=dates.map(date=>{const items=groups[date],sum=items.reduce((s,e)=>s+e.amount,0);return '<div class="day-group"><div class="day-title"><span>'+formatDate(date)+'</span><span class="day-total">Day total: '+money(sum)+'</span></div>'+items.map(e=>'<div class="expense"><div class="expense-desc">'+safe(e.description)+'<time>'+new Date(e.createdAt).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'})+'</time></div><div class="amount">'+money(e.amount)+'</div><button class="delete" type="button" data-delete="'+e.id+'" aria-label="Delete '+safe(e.description)+'">✕</button></div>').join('')+'</div>'}).join('');
+}
+async function loadCloudExpenses(){
+ const {data,error}=await supabase.from('expenses').select('id,description,amount,spent_on,created_at').order('spent_on',{ascending:false});
+ if(error)throw error;
+ expenses=(data||[]).map(e=>({id:e.id,description:e.description,amount:Number(e.amount),date:e.spent_on,createdAt:new Date(e.created_at).getTime()}));
+ // One-time migration of this browser's existing entries when the cloud account is empty.
+ if(expenses.length===0){
+  const local=localExpenses();
+  if(local.length){
+   const rows=local.map(e=>({user_id:user.id,description:String(e.description).slice(0,100),amount:Number(e.amount),spent_on:e.date}));
+   const {error:insertError}=await supabase.from('expenses').insert(rows);
+   if(insertError)throw insertError;
+   const {data:again,error:againError}=await supabase.from('expenses').select('id,description,amount,spent_on,created_at').order('spent_on',{ascending:false});
+   if(againError)throw againError;
+   expenses=(again||[]).map(e=>({id:e.id,description:e.description,amount:Number(e.amount),date:e.spent_on,createdAt:new Date(e.created_at).getTime()}));
+  }
+ }
+ render();
+}
+async function handleSession(session){
+ user=session?.user||null;updateAuthUI();
+ if(user){try{await loadCloudExpenses();setStatus('Signed in. Your expenses are synced to your account.')}catch(e){setStatus('Could not load cloud expenses: '+e.message,true)}}else{expenses=[];render();setStatus('')}
 }
 $('date').value=today();
-$('expenseForm').addEventListener('submit',ev=>{
- ev.preventDefault();const description=$('description').value.trim(),amount=Number($('amount').value),date=$('date').value;
- if(!description||!date||!Number.isFinite(amount)||amount<=0)return;
- const item={id:crypto.randomUUID?crypto.randomUUID():String(Date.now())+Math.random(),description,amount:Math.round(amount*100)/100,date,createdAt:Date.now()};
- expenses.push(item);save();viewed=new Date(date+'T12:00:00');viewed.setDate(1);showAll=false;
- const monthTotal=monthExpenses().reduce((s,e)=>s+e.amount,0);const after=monthTotal>=LIMIT?'This entry takes you over the ₹5,000 monthly limit.':monthTotal>=LIMIT*.9?'You have now used '+Math.round(monthTotal/LIMIT*100)+'% of this month’s budget.':monthTotal>=LIMIT*.75?'You have now used '+Math.round(monthTotal/LIMIT*100)+'% of this month’s budget.':'Expense added.';
- $('formNotice').hidden=false;$('formNotice').textContent=after;$('formNotice').className='notice'+(monthTotal>=LIMIT?' bad':monthTotal>=LIMIT*.75?' warn':'');
- $('expenseForm').reset();$('date').value=today();render();
+$('signInBtn').addEventListener('click',async()=>{
+ const email=$('authEmail').value.trim(),password=$('authPassword').value;
+ if(!email||!password){setStatus('Enter your email and password.',true);return}
+ busy=true;updateAuthUI();setStatus('Signing in…');
+ const {data,error}=await supabase.auth.signInWithPassword({email,password});
+ busy=false;updateAuthUI();
+ if(error){setStatus(error.message,true);return}
+ await handleSession(data.session);
 });
-$('expenseList').addEventListener('click',ev=>{const b=ev.target.closest('[data-delete]');if(!b)return;expenses=expenses.filter(e=>e.id!==b.dataset.delete);save();render()});
+$('signUpBtn').addEventListener('click',async()=>{
+ const email=$('authEmail').value.trim(),password=$('authPassword').value;
+ if(!email||password.length<6){setStatus('Enter a valid email and a password with at least 6 characters.',true);return}
+ busy=true;updateAuthUI();setStatus('Creating your account…');
+ const {data,error}=await supabase.auth.signUp({email,password,options:{emailRedirectTo:location.origin+location.pathname}});
+ busy=false;updateAuthUI();
+ if(error){setStatus(error.message,true);return}
+ if(data.session)await handleSession(data.session);
+ else setStatus('Account created. Check your email for the confirmation link, then return here and sign in.');
+});
+$('signOutBtn').addEventListener('click',async()=>{const {error}=await supabase.auth.signOut();if(error){setStatus(error.message,true);return}await handleSession(null)});
+$('expenseForm').addEventListener('submit',async ev=>{
+ ev.preventDefault();if(!user||busy)return;
+ const description=$('description').value.trim(),amount=Number($('amount').value),date=$('date').value;
+ if(!description||!date||!Number.isFinite(amount)||amount<=0)return;
+ busy=true;updateAuthUI();setStatus('Saving expense…');
+ const {error}=await supabase.from('expenses').insert({user_id:user.id,description,amount:Math.round(amount*100)/100,spent_on:date});
+ busy=false;updateAuthUI();
+ if(error){setStatus('Could not save expense: '+error.message,true);return}
+ viewed=new Date(date+'T12:00:00');viewed.setDate(1);showAll=false;
+ await loadCloudExpenses();const monthTotal=monthExpenses().reduce((s,e)=>s+e.amount,0);
+ const after=monthTotal>=LIMIT?'This entry takes you over the ₹5,000 monthly limit.':monthTotal>=LIMIT*.75?'You have now used '+Math.round(monthTotal/LIMIT*100)+'% of this month’s budget.':'Expense added and synced.';
+ $('formNotice').hidden=false;$('formNotice').textContent=after;$('formNotice').className='notice'+(monthTotal>=LIMIT?' bad':monthTotal>=LIMIT*.75?' warn':'');
+ $('expenseForm').reset();$('date').value=today();
+});
+$('expenseList').addEventListener('click',async ev=>{
+ const b=ev.target.closest('[data-delete]');if(!b||!user||busy)return;
+ if(!confirm('Delete this expense?'))return;
+ busy=true;updateAuthUI();const {error}=await supabase.from('expenses').delete().eq('id',b.dataset.delete);
+ busy=false;updateAuthUI();if(error){setStatus('Could not delete expense: '+error.message,true);return}
+ await loadCloudExpenses();
+});
 $('prevMonth').addEventListener('click',()=>{viewed.setMonth(viewed.getMonth()-1);render()});
 $('nextMonth').addEventListener('click',()=>{viewed.setMonth(viewed.getMonth()+1);render()});
 $('dailyTab').addEventListener('click',()=>{showAll=false;render()});$('allTab').addEventListener('click',()=>{showAll=true;render()});
 $('expenseForm').addEventListener('reset',()=>{setTimeout(()=>{$('date').value=today();$('formNotice').hidden=true},0)});
-render();
+supabase.auth.onAuthStateChange((_event,session)=>{setTimeout(()=>handleSession(session),0)});
+supabase.auth.getSession().then(({data})=>handleSession(data.session));
+updateAuthUI();render();
 })();
 </script>
 </body></html>
