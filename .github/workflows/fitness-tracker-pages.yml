@@ -5,6 +5,7 @@ on:
     paths:
       - 'fitness-tracker/**'
       - 'mechcalc/**'
+      - 'expense-tracker/**'
       - '.github/workflows/fitness-tracker-pages.yml'
   workflow_dispatch:
 permissions:
@@ -28,13 +29,15 @@ jobs:
           cp -R mechcalc/. _site/mechcalc/
           mkdir -p _site/mechcalc-v2
           cp -R mechcalc/. _site/mechcalc-v2/
+          mkdir -p _site/expense-tracker
+          cp -R expense-tracker/. _site/expense-tracker/
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site
   deploy:
     environment:
       name: github-pages
-      url: \${{ steps.deployment.outputs.page_url }}
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     needs: build
     steps:
